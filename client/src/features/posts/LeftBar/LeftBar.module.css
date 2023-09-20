@@ -1,0 +1,31 @@
+.post {
+  text-decoration: none;
+  color: inherit;
+}
+
+.postContent {
+  flex: 1;
+}
+
+.avatars {
+  position: relative;
+}
+
+.avatars div {
+  position: absolute;
+  border-radius: 100px;
+}
+
+.avatars image {
+  border-radius: 100px;
+}
+
+.box {
+  border-radius: 1.5rem;
+  overflow: hidden;
+  border: 1px solid var(--mantine-color-gray-6);
+}
+
+.line {
+  flex: 1;
+}
