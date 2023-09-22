@@ -26,7 +26,7 @@ export function PostItem({ likes, replies, postImg, postText }: PostProps) {
       <Flex gap={12} mb={16} py={20}>
         <PostLeftBar />
         <PostMain>
-          <PostHeader />
+          <PostHeader createdAt="1d" userName="Thomas" />
           <PostContent postText={postText} postImg={postImg} />
           <PostActions liked={liked} setLiked={setLiked} />
           <PostStats replies={replies} likes={likes} />
