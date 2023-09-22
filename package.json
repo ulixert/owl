@@ -2,8 +2,9 @@
   "name": "owl",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "scripts": {
+    "dev": "pnpm --parallel --stream -r run dev",
+    "start": "pnpm --stream -r run start",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
