@@ -17,11 +17,12 @@ type ActionsProps = {
 export function PostActions({ liked, setLiked }: ActionsProps) {
   return (
     <Group ml={-6} gap={6}>
-      <PostAction color="red" onClick={() => setLiked(!liked)}>
+      <PostAction color="red" onClick={() => setLiked(!liked)} type="like">
         <IconHeart className={liked ? styles.liked : ''} />
       </PostAction>
       <PostAction
         color="blue"
+        type="reply"
         onClick={() => {
           console.log('message'); // TODO
         }}
@@ -29,6 +30,7 @@ export function PostActions({ liked, setLiked }: ActionsProps) {
         <IconMessageCircle2 />
       </PostAction>
       <PostAction
+        type="repost"
         color="green"
         onClick={() => {
           console.log('repost');
@@ -37,6 +39,7 @@ export function PostActions({ liked, setLiked }: ActionsProps) {
         <IconRepeat />
       </PostAction>
       <PostAction
+        type="share"
         color="yellow"
         onClick={() => {
           console.log('share');
