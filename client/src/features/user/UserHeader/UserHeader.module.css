@@ -25,16 +25,17 @@
   }
 }
 
+.tab {
+  flex: 1;
+  font-size: 1rem;
+}
+
 .posts {
   border-bottom: 1.5px solid
     light-dark(var(--mantine-color-gray-9), var(--mantine-color-gray-0));
-  cursor: pointer;
-  flex: 1;
 }
 
 .replies {
   border-bottom: 1px solid
     light-dark(var(--mantine-color-gray-6), var(--mantine-color-gray-6));
-  cursor: pointer;
-  flex: 1;
 }

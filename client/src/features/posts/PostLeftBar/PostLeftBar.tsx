@@ -1,8 +1,8 @@
 import { Avatar, Box, Flex } from '@mantine/core';
 
-import styles from './LeftBar.module.css';
+import styles from './PostLeftBar.module.css';
 
-export function LeftBar() {
+export function PostLeftBar() {
   return (
     <Flex direction="column" align="center">
       <Avatar alt="Thomas" src="/avatar.webp" />

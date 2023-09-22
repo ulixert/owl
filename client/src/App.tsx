@@ -1,8 +1,8 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import { Header } from '@/components/Header.tsx';
-import { PostPage } from '@/pages/PostPage.tsx';
-import { UserPage } from '@/pages/UserPage.tsx';
+import PostPage from '@/pages/PostPage.tsx';
+import UserPage from '@/pages/UserPage.tsx';
 import { Container } from '@mantine/core';
 
 import { Demo } from './Demo.tsx';

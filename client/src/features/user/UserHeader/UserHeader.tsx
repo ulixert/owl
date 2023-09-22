@@ -1,4 +1,13 @@
-import { Anchor, Avatar, Box, Button, Flex, Stack, Text } from '@mantine/core';
+import {
+  Anchor,
+  Avatar,
+  Box,
+  Button,
+  Flex,
+  Stack,
+  Tabs,
+  Text,
+} from '@mantine/core';
 import { IconBrandInstagram } from '@tabler/icons-react';
 
 import { UserMoreMenu } from '../UserMoreMenu/UserMoreMenu.tsx';
@@ -20,9 +29,8 @@ export function UserHeader() {
           </Flex>
         </Box>
         <Box>
-          <Avatar alt="Thomas" src="/avatar.webp" size="xl">
-            TH
-          </Avatar>
+          <Avatar alt="Thomas" src="/avatar.webp" hiddenFrom="sm" size="lg" />
+          <Avatar alt="Thomas" src="/avatar.webp" visibleFrom="sm" size="xl" />
         </Box>
       </Flex>
 
@@ -46,16 +54,16 @@ export function UserHeader() {
         </Flex>
       </Flex>
 
-      <Flex w="100%">
-        <Flex justify="center" pb={12} className={styles.posts}>
-          <Text fw={600}>Posts</Text>
-        </Flex>
-        <Flex justify="center" pb={12} className={styles.replies}>
-          <Text fw={500} c="gray.6">
+      <Tabs defaultValue="post" w="100%">
+        <Tabs.List>
+          <Tabs.Tab value="post" fw={600} className={styles.tab} py={12}>
+            Posts
+          </Tabs.Tab>
+          <Tabs.Tab value="replies" className={styles.tab} fw={500} c="gray.6">
             Replies
-          </Text>
-        </Flex>
-      </Flex>
+          </Tabs.Tab>
+        </Tabs.List>
+      </Tabs>
     </Stack>
   );
 }
