@@ -23,6 +23,7 @@ module.exports = {
       {
         checksVoidReturn: {
           arguments: false,
+          attributes: false,
         },
       },
     ],
