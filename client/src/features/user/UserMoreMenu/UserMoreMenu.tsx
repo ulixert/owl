@@ -14,22 +14,20 @@ import {
 import styles from '../UserHeader/UserHeader.module.css';
 
 export function UserMoreMenu() {
-  function handleCopyUrl() {
-    const currentUrl = window.location.href;
-    navigator.clipboard
-      .writeText(currentUrl)
-      .then(() => {
-        showSuccessNotification({
-          title: 'Link copied',
-          message: 'You can now share this link with your friends',
-        });
-      })
-      .catch(() =>
-        showErrorNotification({
-          title: 'Failed to copy link',
-          message: 'You can copy link manually from the address bar',
-        }),
-      );
+  async function handleCopyUrl() {
+    try {
+      const currentUrl = window.location.href;
+      await navigator.clipboard.writeText(currentUrl);
+      showSuccessNotification({
+        title: 'Link copied',
+        message: 'You can now share this link with your friends',
+      });
+    } catch {
+      showErrorNotification({
+        title: 'Failed to copy link',
+        message: 'You can copy link manually from the address bar',
+      });
+    }
   }
 
   return (
