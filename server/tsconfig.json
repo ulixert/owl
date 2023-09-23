@@ -29,7 +29,10 @@
     "baseUrl": "src/",
     "paths": {
       "@/db/*": ["db/*"],
-      "@/models/*": ["models/*"]
+      "@/models/*": ["models/*"],
+      "@/routes/*": ["routes/*"],
+      "@/controllers/*": ["controllers/*"],
+      "@/utils/*": ["utils/*"]
     }
   },
   "include": ["src"],

@@ -1,0 +1,27 @@
+### login user
+POST http://localhost:8000/api/users/login
+Content-Type: application/json
+
+{
+"username": "thomas",
+"password": "asd123456"
+}
+
+### login user with wrong username
+POST http://localhost:8000/api/users/login
+Content-Type: application/json
+
+{
+"username": "thomas1",
+  "password": "asd123456"
+}
+
+
+### login user with wrong password
+POST http://localhost:8000/api/users/login
+Content-Type: application/json
+
+{
+"username": "thomas",
+"password": "asd1234567"
+}
