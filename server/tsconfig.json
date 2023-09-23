@@ -23,7 +23,14 @@
     "strictBindCallApply": true,
     "noImplicitThis": true,
     "alwaysStrict": true,
-    "declaration": true
+    "declaration": true,
+
+    /* Path */
+    "baseUrl": "src/",
+    "paths": {
+      "@/db/*": ["db/*"],
+      "@/models/*": ["models/*"]
+    }
   },
   "include": ["src"],
   "exclude": ["dist", "node_modules"]

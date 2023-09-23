@@ -1,5 +1,4 @@
 import mongoose from 'mongoose';
-import { UserType } from 'validation';
 
 const userSchema = new mongoose.Schema(
   {
@@ -44,4 +43,4 @@ const userSchema = new mongoose.Schema(
   },
 );
 
-export const User: UserType = mongoose.model('User', userSchema);
+export const UserModel = mongoose.model('User', userSchema);
