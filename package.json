@@ -4,9 +4,9 @@
   "description": "",
   "scripts": {
     "dev": "nx run-many -t dev --parallel=4 --all",
-    "start": "nx run-many -t start --parallel=4 --all",
+    "start": "pnpm --stream -r run start",
     "build": "nx run-many -t build --parallel=4 --all",
-    "clean": "nx run-many -t clean --parallel=4 --all",
+    "clean": "pnpm --stream -r run clean",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
