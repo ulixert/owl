@@ -3,14 +3,18 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "dev": "pnpm --parallel --stream -r run dev",
-    "start": "pnpm --stream -r run start",
-    "build": "pnpm --stream -r run build",
+    "dev": "nx run-many -t dev --parallel=4 --all",
+    "start": "nx run-many -t start --parallel=4 --all",
+    "build": "nx run-many -t build --parallel=4 --all",
+    "clean": "nx run-many -t clean --parallel=4 --all",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "MIT",
+  "resolutions": {
+    "postcss": "8"
+  },
   "devDependencies": {
     "nx": "^16.9.0"
   }

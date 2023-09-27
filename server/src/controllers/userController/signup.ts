@@ -2,8 +2,8 @@ import bcrypt from 'bcryptjs';
 import { Request, Response } from 'express';
 import { BaseUserSchema } from 'validation';
 
-import { UserModel } from '@/models/userModel.js';
-import { generateTokenAndSetCookie } from '@/utils/generateTokenAndSetCookie.js';
+import { UserModel } from '../../models/userModel.js';
+import { generateTokenAndSetCookie } from '../../utils/generateTokenAndSetCookie.js';
 
 export async function signup(req: Request, res: Response) {
   try {

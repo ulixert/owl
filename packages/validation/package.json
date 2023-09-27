@@ -5,10 +5,10 @@
   "description": "A code library for validation, reusable in the frontend and backend.",
   "main": "dist/index.js",
   "scripts": {
-    "dev": "tsc -w --incremental",
     "build": "tsc --incremental",
     "clean": "rm -rf dist tsconfig.json.tsbuildinfo",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint --ext .ts src"
   },
   "type": "module",
   "keywords": [],
