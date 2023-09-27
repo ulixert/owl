@@ -1,5 +1,6 @@
 import { useState } from 'react';
 
+import { getRandomColor } from '@/utils/getRandomColor.ts';
 import { Avatar, Divider, Flex, Text } from '@mantine/core';
 
 import { PostActions } from '../../posts/PostActions/PostActions.tsx';
@@ -27,7 +28,12 @@ export function CommentItem({
   return (
     <>
       <Flex gap={12} py={8} my={8} w="100%">
-        <Avatar src={userAvatar} alt={userName} size="md">
+        <Avatar
+          src={userAvatar}
+          alt={userName}
+          size="md"
+          color={getRandomColor()}
+        >
           {userName.slice(0, 2).toUpperCase()}
         </Avatar>
         <PostMain gap={4}>

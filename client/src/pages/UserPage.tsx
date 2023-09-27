@@ -1,9 +1,12 @@
+import { Header } from '@/components/Header/Header.tsx';
 import { PostItem } from '@/features/posts/PostItem/PostItem.tsx';
 import { UserHeader } from '@/features/user/UserHeader/UserHeader.tsx';
 
 function UserPage() {
   return (
     <>
+      <Header />
+
       <UserHeader />
       <PostItem
         likes={1200}

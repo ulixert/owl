@@ -6,7 +6,7 @@ import {
   useMantineColorScheme,
 } from '@mantine/core';
 
-export function Header() {
+export function Logo() {
   const { setColorScheme } = useMantineColorScheme();
   const computedColorScheme = useComputedColorScheme('light');
 
@@ -15,7 +15,7 @@ export function Header() {
   }
 
   return (
-    <Flex justify="center" mt={24} mb={48}>
+    <Flex justify="center">
       <UnstyledButton w={24} onClick={handleColorSchemeChange}>
         <Image
           src={
