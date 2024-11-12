@@ -1,7 +1,7 @@
 import { Group } from '@mantine/core';
 import {
   IconHeart,
-  IconMessageCircle2,
+  IconMessageCircle,
   IconRepeat,
   IconSend,
 } from '@tabler/icons-react';
@@ -27,7 +27,7 @@ export function PostActions({ liked, setLiked }: ActionsProps) {
           console.log('message'); // TODO
         }}
       >
-        <IconMessageCircle2 />
+        <IconMessageCircle />
       </PostAction>
       <PostAction
         type="repost"
