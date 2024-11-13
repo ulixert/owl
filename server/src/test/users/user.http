@@ -2,4 +2,4 @@
 GET {{api}}/users
 
 ### Follow/unfollow user
-POST {{api}}/users/follow/673479eeec0f5841bf0698bd
+POST {{api}}/users/follow/67350ca77603315cc0ab25d3

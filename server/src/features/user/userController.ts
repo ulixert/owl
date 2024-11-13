@@ -24,7 +24,7 @@ export async function followAndUnfollowUser(req: Request, res: Response) {
     const targetUser = await UserModel.findById(targetUserId);
 
     // Check if the user is trying to follow/unfollow themselves
-    if (targetUserId === currentUserId) {
+    if (targetUserId.equals(currentUserId)) {
       res
         .status(400)
         .json({ message: 'You cannot follow or unfollow yourself.' });

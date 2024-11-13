@@ -3,8 +3,17 @@ POST {{api}}/users/login
 Content-Type: application/json
 
 {
-"username": "thomas",
-"password": "asd123456"
+  "username": "thomas",
+  "password": "asd123456"
+}
+
+### login user 2
+POST {{api}}/users/login
+Content-Type: application/json
+
+{
+  "username": "joe",
+  "password": "asd123456"
 }
 
 ### login user with wrong username
