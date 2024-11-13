@@ -15,11 +15,16 @@ export async function getUsers(_req: Request, res: Response) {
 
 export async function followAndUnfollowUser(req: Request, res: Response) {
   try {
-    const { id: targetUserId } = req.params;
+    const { id } = req.params;
     const currentUser = req.user!;
+    const currentUserId = currentUser._id;
+
+    // Convert the string ID to a MongoDB ObjectId
+    const targetUserId = new mongoose.Types.ObjectId(id);
     const targetUser = await UserModel.findById(targetUserId);
 
-    if (targetUserId === currentUser._id.toString()) {
+    // Check if the user is trying to follow/unfollow themselves
+    if (targetUserId === currentUserId) {
       res
         .status(400)
         .json({ message: 'You cannot follow or unfollow yourself.' });
@@ -31,25 +36,25 @@ export async function followAndUnfollowUser(req: Request, res: Response) {
       return;
     }
 
-    const isFollowing = currentUser.following.includes(
-      new mongoose.Types.ObjectId(targetUserId),
-    );
+    const isFollowing = currentUser.following.includes(targetUserId);
 
     if (isFollowing) {
-      await UserModel.findByIdAndUpdate(currentUser._id, {
+      await UserModel.findByIdAndUpdate(currentUserId, {
         $pull: { following: targetUserId },
       });
-      await UserModel.findByIdAndUpdate(targetUser._id, {
-        $pull: { followers: currentUser._id },
+      await UserModel.findByIdAndUpdate(targetUserId, {
+        $pull: { followers: currentUserId },
       });
+
       res.status(200).json({ message: 'User unfollowed successfully.' });
     } else {
-      await UserModel.findByIdAndUpdate(currentUser._id, {
+      await UserModel.findByIdAndUpdate(currentUserId, {
         $addToSet: { following: targetUserId },
       });
-      await UserModel.findByIdAndUpdate(targetUser._id, {
-        $addToSet: { followers: currentUser._id },
+      await UserModel.findByIdAndUpdate(targetUserId, {
+        $addToSet: { followers: currentUserId },
       });
+
       res.status(200).json({ message: 'User followed successfully.' });
     }
   } catch (error) {
