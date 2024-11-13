@@ -3,17 +3,20 @@ import express, { Application, NextFunction } from 'express';
 
 import { connectDB } from './db/connectDB.js';
 import { NotFoundError } from './errors/errors.js';
-import { userRouter } from './routes/userRouter.js';
+import { userRouter } from './features/user/userRouter.js';
 
 void connectDB();
+
 export const app: Application = express();
 
+// Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 // Routes
-app.use('/api/users', userRouter);
+const API_PREFIX = process.env.API_PREFIX ?? '/api/v1';
+app.use(`${API_PREFIX}/users`, userRouter);
 
 // Error handling
 app.all('*', (req, _, next: NextFunction) => {

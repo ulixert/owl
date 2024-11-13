@@ -1,6 +1,5 @@
-### signup
 ### signup user
-POST http://localhost:8000/api/users/signup
+POST {{api}}/users/signup
 Content-Type: application/json
 
 {
@@ -11,7 +10,7 @@ Content-Type: application/json
 }
 
 ### signup user 2
-POST http://localhost:8000/api/users/signup
+POST {{api}}/users/signup
 Content-Type: application/json
 
 {
@@ -19,4 +18,13 @@ Content-Type: application/json
 "email": "joe@email.com",
 "password": "asd123456",
 "name": "Joe Smith"
+}
+
+### Signup user with invalid field using zod
+POST {{api}}/users/signup
+Content-Type: application/json
+
+{
+  "username": "tom",
+  "email": "hs"
 }
