@@ -1,13 +1,14 @@
 import mongoose from 'mongoose';
 import { z } from 'zod';
 
+// Define Zod schema for MongoDB ObjectId using Mongoose's `ObjectId`
+const ObjectIdSchema = z.instanceof(mongoose.Types.ObjectId, {
+  message: 'Invalid MongoDB ObjectId',
+});
+
+// Zod schema for a document with MongoDB ObjectId
 const HasId = z.object({
-  _id: z.custom<mongoose.Types.ObjectId>(
-    (value) => value instanceof mongoose.Types.ObjectId,
-    {
-      message: 'Invalid MongoDB ObjectId',
-    },
-  ),
+  _id: ObjectIdSchema,
 });
 
 export const BaseUserSchema = z.object({
@@ -15,9 +16,9 @@ export const BaseUserSchema = z.object({
   email: z.string().email(),
   name: z.string(),
   password: z.string().min(8),
-  profilePicUrl: z.string().default(''),
-  followers: z.array(z.string()).default([]),
-  following: z.array(z.string()).default([]),
+  profilePicUrl: z.string().nullable().default(null),
+  followers: z.array(ObjectIdSchema).default([]),
+  following: z.array(ObjectIdSchema).default([]),
   biography: z.string().default(''),
 });
 

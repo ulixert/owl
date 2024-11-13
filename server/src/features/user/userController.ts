@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import mongoose from 'mongoose';
 
 import { UserModel } from '../../models/userModel.js';
 
@@ -30,7 +31,9 @@ export async function followAndUnfollowUser(req: Request, res: Response) {
       return;
     }
 
-    const isFollowing = currentUser.following.includes(targetUserId);
+    const isFollowing = currentUser.following.includes(
+      new mongoose.Types.ObjectId(targetUserId),
+    );
 
     if (isFollowing) {
       await UserModel.findByIdAndUpdate(currentUser._id, {
@@ -42,10 +45,10 @@ export async function followAndUnfollowUser(req: Request, res: Response) {
       res.status(200).json({ message: 'User unfollowed successfully.' });
     } else {
       await UserModel.findByIdAndUpdate(currentUser._id, {
-        $push: { following: targetUserId },
+        $addToSet: { following: targetUserId },
       });
       await UserModel.findByIdAndUpdate(targetUser._id, {
-        $push: { followers: currentUser._id },
+        $addToSet: { followers: currentUser._id },
       });
       res.status(200).json({ message: 'User followed successfully.' });
     }
