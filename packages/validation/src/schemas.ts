@@ -25,7 +25,7 @@ export const BaseUserSchema = z.object({
 
 export const UserLoginSchema = BaseUserSchema.pick({
   username: true,
-  password: true, // Only allow username and password
+  password: true,
 });
 
 export const UserCreateSchema = BaseUserSchema;
@@ -42,34 +42,55 @@ export const ReplySchema = z.object({
   userId: ObjectIdSchema,
   text: z.string().min(2).max(280),
   userProfilePic: z.string().optional(),
-  likes: z.number().default(0),
+  likes: z.array(ObjectIdSchema).default([]),
   username: z.string(),
 });
 
-export const PostSchema = z.object({
+export const BasePostSchema = z.object({
   postedBy: ObjectIdSchema,
   text: z.string().max(280).optional(),
   img: z.string().optional(),
-  likes: z.number().default(0),
-  replies: z.array(ReplySchema),
+  likes: z.array(ObjectIdSchema).default([]),
+  commentsCount: z.number().default(0),
 });
 
-export const PostCreateSchema = PostSchema.omit({
+export const PostCreateSchema = BasePostSchema.omit({
   postedBy: true,
   likes: true,
-  replies: true,
 }).refine((data) => Boolean(data.text) || Boolean(data.img), {
   message: "At least 'text' or 'img' must be provided.",
   path: ['text', 'img'],
 });
 
-export const PostUpdateSchema = PostSchema.partial()
+export const PostUpdateSchema = BasePostSchema.partial()
   .omit({
     postedBy: true,
     likes: true,
-    replies: true,
   })
   .refine((data) => Boolean(data.text) || Boolean(data.img), {
     message: "At least 'text' or 'img' must be provided.",
     path: ['text', 'img'],
   });
+
+export const BaseCommentSchema = z.object({
+  postId: ObjectIdSchema,
+  userId: ObjectIdSchema,
+  text: z.string().max(280),
+  likes: z.array(ObjectIdSchema).default([]),
+  parentCommentId: ObjectIdSchema.optional().nullable(),
+  repliesCount: z.number().default(0),
+});
+
+export const CommentCreateSchema = BaseCommentSchema.omit({
+  userId: true,
+  likes: true,
+  parentCommentId: true,
+  repliesCount: true,
+});
+
+export const CommentUpdateSchema = BaseCommentSchema.partial().omit({
+  userId: true,
+  likes: true,
+  parentCommentId: true,
+  repliesCount: true,
+});

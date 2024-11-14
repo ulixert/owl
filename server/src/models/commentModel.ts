@@ -1,8 +1,13 @@
 import mongoose from 'mongoose';
 
-const postSchema = new mongoose.Schema(
+const commentSchema = new mongoose.Schema(
   {
-    postedBy: {
+    postId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'PostModel',
+      required: true,
+    },
+    userId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'UserModel',
       required: true,
@@ -10,16 +15,18 @@ const postSchema = new mongoose.Schema(
     text: {
       type: String,
       maxLength: 280,
-    },
-    img: {
-      type: String,
+      required: true,
     },
     likes: {
       type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'UserModel' }],
       default: [],
     },
-    // Useful for quick access without counting
-    commentsCount: {
+    parentCommentId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'CommentModel',
+      default: null,
+    },
+    repliesCount: {
       type: Number,
       default: 0,
     },
@@ -31,4 +38,4 @@ const postSchema = new mongoose.Schema(
   },
 );
 
-export const PostModel = mongoose.model('Post', postSchema);
+export const CommentModel = mongoose.model('Comment', commentSchema);

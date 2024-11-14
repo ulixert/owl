@@ -20,4 +20,4 @@ POST {{api}}/posts
 }
 
 ### Delete a post
-DELETE {{api}}/posts/67355e0462abd192a6e0018e
+DELETE {{api}}/posts/673560e204fd06defdc5434d

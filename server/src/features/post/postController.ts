@@ -82,3 +82,34 @@ export async function deletePost(req: Request, res: Response) {
     console.error('Error in deletePost: ', error);
   }
 }
+
+export async function likeUnlikePost(req: Request, res: Response) {
+  try {
+    const postId = toObjectId(req.params.id);
+    const post = await PostModel.findById(postId);
+    if (!post) {
+      res.status(404).json({ error: 'Post not found' });
+      return;
+    }
+
+    const currentUserId = req.user!._id;
+    const isLiked = post.likes.includes(currentUserId);
+
+    if (isLiked) {
+      await PostModel.findByIdAndUpdate(postId, {
+        $pull: { likes: currentUserId },
+      });
+    } else {
+      await PostModel.findByIdAndUpdate(postId, {
+        $push: { likes: currentUserId },
+      });
+    }
+
+    res
+      .status(200)
+      .json({ message: isLiked ? 'Post unliked.' : 'Post liked.' });
+  } catch (error) {
+    res.status(500).json({ error: 'An unknown error occurred' });
+    console.error('Error in likeUnlikePost: ', error);
+  }
+}
