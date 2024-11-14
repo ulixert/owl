@@ -1,8 +1,9 @@
+import { useNavigate } from 'react-router-dom';
+
 import {
   Anchor,
   Button,
   Checkbox,
-  Container,
   Group,
   Paper,
   PasswordInput,
@@ -10,23 +11,26 @@ import {
   TextInput,
   Title,
 } from '@mantine/core';
+import { useAuthViewStore } from '@stores/useAuthViewStore.ts';
 
 import classes from './Login.module.css';
 
-type LoginProps = {
-  onSignupClick: () => void;
-  onForgotPasswordClick: () => void;
-};
+export function Login() {
+  const { setView } = useAuthViewStore();
+  const navigate = useNavigate();
 
-export function Login({ onSignupClick, onForgotPasswordClick }: LoginProps) {
   return (
-    <Container size={420} my={40}>
+    <>
       <Title ta="center" className={classes.title}>
         Welcome Owl
       </Title>
       <Text c="dimmed" size="sm" ta="center" mt={5}>
         Do not have an account yet?{' '}
-        <Anchor size="sm" component="button" onClick={onSignupClick}>
+        <Anchor
+          size="sm"
+          component="button"
+          onClick={() => setView('signup', navigate)}
+        >
           Create account
         </Anchor>
       </Text>
@@ -41,7 +45,11 @@ export function Login({ onSignupClick, onForgotPasswordClick }: LoginProps) {
         />
         <Group justify="space-between" mt="lg">
           <Checkbox label="Remember me" />
-          <Anchor component="button" size="sm" onClick={onForgotPasswordClick}>
+          <Anchor
+            component="button"
+            size="sm"
+            onClick={() => setView('forgot-password', navigate)}
+          >
             Forgot password?
           </Anchor>
         </Group>
@@ -49,6 +57,6 @@ export function Login({ onSignupClick, onForgotPasswordClick }: LoginProps) {
           Sign in
         </Button>
       </Paper>
-    </Container>
+    </>
   );
 }

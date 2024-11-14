@@ -1,22 +1,21 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import {
   Anchor,
   Button,
-  Container,
   Group,
   Paper,
   Text,
   TextInput,
   Title,
 } from '@mantine/core';
+import { useAuthViewStore } from '@stores/useAuthViewStore.ts';
 
-export function ForgotPassword({
-  onBackToLoginClick,
-}: {
-  onBackToLoginClick: () => void;
-}) {
+export function ForgotPassword() {
   const [email, setEmail] = useState('');
+  const navigate = useNavigate();
+  const { setView } = useAuthViewStore();
 
   const handleResetPassword = () => {
     console.log(`Reset link sent to: ${email}`);
@@ -24,7 +23,7 @@ export function ForgotPassword({
   };
 
   return (
-    <Container size={420} my={40}>
+    <>
       <Title ta="center">Forgot your password?</Title>
       <Text ta="center" size="sm" c="dimmed" mt={5}>
         Enter your email to get a reset link
@@ -38,7 +37,11 @@ export function ForgotPassword({
           required
         />
         <Group mt="lg">
-          <Anchor component="button" size="sm" onClick={onBackToLoginClick}>
+          <Anchor
+            component="button"
+            size="sm"
+            onClick={() => setView('login', navigate)}
+          >
             Back to login
           </Anchor>
           <Button fullWidth onClick={handleResetPassword}>
@@ -46,6 +49,6 @@ export function ForgotPassword({
           </Button>
         </Group>
       </Paper>
-    </Container>
+    </>
   );
 }

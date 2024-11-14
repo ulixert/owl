@@ -3,6 +3,7 @@ import express, { Application, NextFunction } from 'express';
 
 import { connectDB } from './db/connectDB.js';
 import { NotFoundError } from './errors/errors.js';
+import { authRouter } from './features/auth/authRouter.js';
 import { postRouter } from './features/post/postRouter.js';
 import { userRouter } from './features/user/userRouter.js';
 
@@ -19,6 +20,7 @@ app.use(cookieParser());
 const API_PREFIX = process.env.API_PREFIX ?? '/api/v1';
 app.use(`${API_PREFIX}/users`, userRouter);
 app.use(`${API_PREFIX}/posts`, postRouter);
+app.use(`${API_PREFIX}`, authRouter);
 
 // Error handling
 app.all('*', (req, _, next: NextFunction) => {

@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { UserCreateSchema, UserLoginSchema } from 'validation';
+import { LoginSchema, UserCreateSchema } from 'validation';
 
 import argon2 from '@node-rs/argon2';
 
@@ -10,7 +10,7 @@ import { checkPassword } from './utils/checkPassword.js';
 export async function login(req: Request, res: Response) {
   try {
     // Validate input
-    const input = UserLoginSchema.safeParse(req.body);
+    const input = LoginSchema.safeParse(req.body);
     if (!input.success) {
       res.status(400).json({ message: 'Invalid user data' });
       return;
@@ -31,7 +31,6 @@ export async function login(req: Request, res: Response) {
 
     res.status(200).json({
       _id: user._id,
-      name: user.name,
       email: user.email,
       username: user.username,
     });
@@ -60,7 +59,7 @@ export async function signup(req: Request, res: Response) {
     }
 
     // Check if user already exists
-    const { username, email, name, password } = input.data;
+    const { username, email, password } = input.data;
     const user = await UserModel.findOne({ $or: [{ email }, { username }] });
 
     if (user) {
@@ -72,7 +71,6 @@ export async function signup(req: Request, res: Response) {
     const hashedPassword = await argon2.hash(password);
 
     const newUser = await UserModel.create({
-      name,
       email,
       username,
       password: hashedPassword,
@@ -82,7 +80,6 @@ export async function signup(req: Request, res: Response) {
 
     res.status(201).json({
       _id: newUser._id,
-      name: newUser.name,
       email: newUser.email,
       username: newUser.username,
     });

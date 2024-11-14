@@ -12,10 +12,12 @@ const HasId = z.object({
 });
 
 export const BaseUserSchema = z.object({
-  username: z.string(),
-  email: z.string().email(),
-  name: z.string(),
-  password: z.string().min(8),
+  username: z
+    .string()
+    .min(3, "Username can't be less than 3 characters")
+    .max(20, "Username can't be more than 20 characters"),
+  email: z.string().email('Invalid email address'),
+  password: z.string().min(8, 'Password must be at least 8 characters'),
   profilePicUrl: z.string().nullable().default(null),
   followers: z.array(ObjectIdSchema).default([]),
   following: z.array(ObjectIdSchema).default([]),
@@ -23,12 +25,23 @@ export const BaseUserSchema = z.object({
   active: z.boolean().default(true),
 });
 
-export const UserLoginSchema = BaseUserSchema.pick({
+export const UserCreateSchema = BaseUserSchema.pick({
+  username: true,
   email: true,
   password: true,
 });
 
-export const UserCreateSchema = BaseUserSchema;
+export const SignUpSchema = UserCreateSchema.extend({
+  confirmPassword: z.string(),
+}).refine((data) => data.password === data.confirmPassword, {
+  message: "Passwords don't match",
+  path: ['confirmPassword'],
+});
+
+export const LoginSchema = BaseUserSchema.pick({
+  email: true,
+  password: true,
+});
 
 export const UserUpdateSchema = BaseUserSchema.partial().omit({
   password: true,
