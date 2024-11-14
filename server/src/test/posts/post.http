@@ -1,6 +1,9 @@
 ### Get all posts
 GET {{api}}/posts
 
+### Get post by id
+GET {{api}}/posts/67355658f00a56547c761123
+
 ### Create a post
 POST {{api}}/posts
 Content-Type: application/json
@@ -15,3 +18,6 @@ POST {{api}}/posts
 {
    "content": "post content"
 }
+
+### Delete a post
+DELETE {{api}}/posts/67355e0462abd192a6e0018e

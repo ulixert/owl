@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { PostCreateSchema } from 'validation';
 
 import { PostModel } from '../../models/postModel.js';
+import { toObjectId } from '../../utils/toObjectId.js';
 
 export async function getPosts(_req: Request, res: Response) {
   try {
@@ -15,14 +16,14 @@ export async function getPosts(_req: Request, res: Response) {
 
 export async function getPostById(req: Request, res: Response) {
   try {
-    const postId = req.params.id;
+    const postId = toObjectId(req.params.id);
     const post = await PostModel.findById(postId);
     if (!post) {
       res.status(404).json({ error: 'Post not found' });
       return;
     }
 
-    res.status(200).json({ post });
+    res.status(200).json({ message: 'Post found', post });
   } catch (error) {
     res.status(500).json({ error: 'An unknown error occurred' });
     console.error('Error in getPostById: ', error);
@@ -52,5 +53,32 @@ export async function createPost(req: Request, res: Response) {
   } catch (error) {
     res.status(500).json({ error: 'An unknown error occurred' });
     console.error('Error in createPost: ', error);
+  }
+}
+
+export async function deletePost(req: Request, res: Response) {
+  try {
+    const postId = toObjectId(req.params.id);
+    const post = await PostModel.findById(postId);
+    if (!post) {
+      res.status(404).json({ error: 'Post not found' });
+      return;
+    }
+
+    // Check if the user is authorized to delete the post
+    const currentUserId = req.user!._id;
+    if (!post.postedBy.equals(currentUserId)) {
+      res
+        .status(403)
+        .json({ error: 'You are not authorized to delete this post' });
+      return;
+    }
+
+    await PostModel.deleteOne({ _id: postId });
+
+    res.status(200).json({ message: 'Post deleted' });
+  } catch (error) {
+    res.status(500).json({ error: 'An unknown error occurred' });
+    console.error('Error in deletePost: ', error);
   }
 }
