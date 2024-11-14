@@ -6,6 +6,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
       unique: true,
+      trim: true,
     },
     email: {
       type: String,
@@ -15,31 +16,41 @@ const userSchema = new mongoose.Schema(
     name: {
       type: String,
       required: true,
+      trim: true,
     },
     password: {
       type: String,
-      minLength: 6,
+      minLength: 8,
       required: true,
+      select: false,
     },
     profilePicUrl: {
       type: String,
-      default: '',
+      default: null,
     },
     followers: {
-      type: [String],
+      type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
       default: [],
     },
     following: {
-      type: [String],
+      type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
       default: [],
     },
     biography: {
       type: String,
       default: '',
+      trim: true,
+    },
+    active: {
+      type: Boolean,
+      default: true,
+      select: false,
     },
   },
   {
     timestamps: true,
+    toObject: { versionKey: false },
+    toJSON: { versionKey: false },
   },
 );
 
