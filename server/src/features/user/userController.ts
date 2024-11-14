@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
-import mongoose from 'mongoose';
 import { UserUpdateSchema } from 'validation';
 
 import { UserModel } from '../../models/userModel.js';
+import { toObjectId } from '../../utils/toObjectId.js';
 
 export async function getUsers(_req: Request, res: Response) {
   try {
@@ -21,7 +21,7 @@ export async function followAndUnfollowUser(req: Request, res: Response) {
     const currentUserId = currentUser._id;
 
     // Convert the string ID to a MongoDB ObjectId
-    const targetUserId = new mongoose.Types.ObjectId(id);
+    const targetUserId = toObjectId(id);
     const targetUser = await UserModel.findById(targetUserId);
 
     // Check if the user is trying to follow/unfollow themselves
@@ -81,23 +81,6 @@ export async function updateUserProfile(req: Request, res: Response) {
   } catch (error) {
     res.status(500).json({ message: 'An unknown error occurred.' });
     console.error('Error in updateUser: ', error);
-  }
-}
-
-export async function getSuggestedUsers(req: Request, res: Response) {
-  try {
-    const currentUser = req.user!;
-    const currentUserId = currentUser._id;
-
-    const users = await UserModel.find({
-      _id: { $ne: currentUserId },
-      followers: { $ne: currentUserId },
-    });
-
-    res.status(200).json(users);
-  } catch (error) {
-    res.status(500).json({ message: 'An unknown error occurred.' });
-    console.error('Error in getSuggestedUsers: ', error);
   }
 }
 

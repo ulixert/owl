@@ -1,0 +1,17 @@
+### Get all posts
+GET {{api}}/posts
+
+### Create a post
+POST {{api}}/posts
+Content-Type: application/json
+
+{
+    "text": "Post text"
+}
+
+### Create a post without text and image
+POST {{api}}/posts
+
+{
+   "content": "post content"
+}

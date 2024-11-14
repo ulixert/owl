@@ -39,22 +39,37 @@ export const UserUpdateSchema = BaseUserSchema.partial().omit({
 export const UserSchema = BaseUserSchema.merge(HasId);
 
 export const ReplySchema = z.object({
-  userId: z.string(), // Assuming ObjectId can be represented as a string
+  userId: ObjectIdSchema,
   text: z.string().min(2).max(280),
   userProfilePic: z.string().optional(),
   likes: z.number().default(0),
   username: z.string(),
 });
 
-export const PostSchema = z
-  .object({
-    postedBy: z.string(), // Assuming ObjectId can be represented as a string
-    text: z.string().max(280).optional(),
-    img: z.string().optional(),
-    likes: z.number().default(0),
-    replies: z.array(ReplySchema),
+export const PostSchema = z.object({
+  postedBy: ObjectIdSchema,
+  text: z.string().max(280).optional(),
+  img: z.string().optional(),
+  likes: z.number().default(0),
+  replies: z.array(ReplySchema),
+});
+
+export const PostCreateSchema = PostSchema.omit({
+  postedBy: true,
+  likes: true,
+  replies: true,
+}).refine((data) => Boolean(data.text) || Boolean(data.img), {
+  message: "At least 'text' or 'img' must be provided.",
+  path: ['text', 'img'],
+});
+
+export const PostUpdateSchema = PostSchema.partial()
+  .omit({
+    postedBy: true,
+    likes: true,
+    replies: true,
   })
   .refine((data) => Boolean(data.text) || Boolean(data.img), {
     message: "At least 'text' or 'img' must be provided.",
-    path: ['text', 'img'], // Specify the fields this refinement is related to
+    path: ['text', 'img'],
   });
