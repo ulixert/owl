@@ -29,11 +29,11 @@ const userSchema = new mongoose.Schema(
       default: null,
     },
     followers: {
-      type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+      type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'UserModel' }],
       default: [],
     },
     following: {
-      type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+      type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'UserModel' }],
       default: [],
     },
     biography: {
@@ -49,8 +49,8 @@ const userSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
-    toObject: { versionKey: false },
-    toJSON: { versionKey: false },
+    toObject: { virtuals: true, versionKey: false },
+    toJSON: { virtuals: true, versionKey: false },
   },
 );
 

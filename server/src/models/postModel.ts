@@ -15,35 +15,19 @@ const postSchema = new mongoose.Schema(
       type: String,
     },
     likes: {
+      type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'UserModel' }],
+      default: [],
+    },
+    // Useful for quick access without counting
+    commentsCount: {
       type: Number,
       default: 0,
     },
-    replies: [
-      {
-        userId: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: 'UserModel',
-          required: true,
-        },
-        text: {
-          type: String,
-          maxLength: 280,
-          required: true,
-        },
-        userProfilePic: {
-          type: String,
-        },
-        username: {
-          type: String,
-          required: true,
-        },
-      },
-    ],
   },
   {
     timestamps: true,
-    toObject: { versionKey: false },
-    toJSON: { versionKey: false },
+    toObject: { virtuals: true, versionKey: false },
+    toJSON: { virtuals: true, versionKey: false },
   },
 );
 
