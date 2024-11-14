@@ -25,7 +25,7 @@ export async function protectRoute(
     const { userId } = await jwtVerify(token, process.env.JWT_SECRET!);
 
     // 3) Check if user still exists
-    const user = await UserModel.findById(userId).select('-password');
+    const user = await UserModel.findById(userId);
     if (!user) {
       res.status(401).json({
         message: 'The user belonging to this token no longer exists.',

@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { BaseUserSchema, UserLoginSchema } from 'validation';
+import { UserCreateSchema, UserLoginSchema } from 'validation';
 
 import argon2 from '@node-rs/argon2';
 
@@ -17,7 +17,7 @@ export async function login(req: Request, res: Response) {
     }
 
     const { username, password } = input.data;
-    const user = await UserModel.findOne({ username });
+    const user = await UserModel.findOne({ username }).select('+password');
 
     // Check if password is correct
     const isPasswordCorrect = await checkPassword(user?.password, password);
@@ -53,7 +53,7 @@ export function logout(_req: Request, res: Response) {
 export async function signup(req: Request, res: Response) {
   try {
     // Validate input
-    const input = BaseUserSchema.safeParse(req.body);
+    const input = UserCreateSchema.safeParse(req.body);
     if (!input.success) {
       res.status(400).json({ message: 'Invalid user data' });
       return;

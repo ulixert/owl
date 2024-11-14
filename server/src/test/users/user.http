@@ -2,4 +2,15 @@
 GET {{api}}/users
 
 ### Follow/unfollow user
-POST {{api}}/users/follow/67350ca77603315cc0ab25d3
+PUT {{api}}/users/follow/673535bc00f44196b3259feb
+
+### Update a user
+PUT {{api}}/users
+Content-Type: application/json
+
+{
+  "name": "Will Smith"
+}
+
+### Get user by username
+GET {{api}}/users/thomas

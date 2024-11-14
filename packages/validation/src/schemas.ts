@@ -20,11 +20,20 @@ export const BaseUserSchema = z.object({
   followers: z.array(ObjectIdSchema).default([]),
   following: z.array(ObjectIdSchema).default([]),
   biography: z.string().default(''),
+  active: z.boolean().default(true),
 });
 
 export const UserLoginSchema = BaseUserSchema.pick({
   username: true,
   password: true, // Only allow username and password
+});
+
+export const UserCreateSchema = BaseUserSchema;
+
+export const UserUpdateSchema = BaseUserSchema.partial().omit({
+  password: true,
+  followers: true,
+  following: true,
 });
 
 export const UserSchema = BaseUserSchema.merge(HasId);

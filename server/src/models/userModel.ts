@@ -22,6 +22,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       minLength: 8,
       required: true,
+      select: false,
     },
     profilePicUrl: {
       type: String,
@@ -40,9 +41,16 @@ const userSchema = new mongoose.Schema(
       default: '',
       trim: true,
     },
+    active: {
+      type: Boolean,
+      default: true,
+      select: false,
+    },
   },
   {
     timestamps: true,
+    toObject: { versionKey: false },
+    toJSON: { versionKey: false },
   },
 );
 
