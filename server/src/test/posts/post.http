@@ -1,6 +1,9 @@
 ### Get all posts
 GET {{api}}/posts
 
+### Get feed posts
+GET {{api}}/posts/feed
+
 ### Get post by id
 GET {{api}}/posts/67355658f00a56547c761123
 
@@ -14,10 +17,25 @@ Content-Type: application/json
 
 ### Create a post without text and image
 POST {{api}}/posts
+Content-Type: application/json
 
 {
-   "content": "post content"
+    "text": "Post text"
 }
 
 ### Delete a post
-DELETE {{api}}/posts/673560e204fd06defdc5434d
+DELETE {{api}}/posts/67358c28f257b691e797857e
+
+### Like/unlike a post
+PUT {{api}}/posts/67358c28f257b691e797857e/like
+
+### Get all comments of a post
+GET {{api}}/posts/67358c28f257b691e797857e/comments
+
+### Comment on a post
+POST {{api}}/posts/67358c28f257b691e797857e/comments
+Content-type: application/json
+
+{
+    "text": "Comment text"
+}

@@ -1,16 +1,27 @@
 import express, { Router } from 'express';
 
 import { protectRoute } from '../../middlewares/protectRoute.js';
+import { commentPost, getPostComments } from '../comment/commentController.js';
 import {
   createPost,
   deletePost,
+  getAllPosts,
+  getFeedPosts,
   getPostById,
-  getPosts,
   likeUnlikePost,
 } from './postController.js';
 
 export const postRouter: Router = express.Router();
 
-postRouter.route('/:id').get(getPostById).delete(protectRoute, deletePost);
-postRouter.route('/').post(protectRoute, createPost).get(getPosts);
-postRouter.put('/:id/like', protectRoute, likeUnlikePost);
+postRouter.get('/feed', protectRoute, getFeedPosts);
+
+postRouter.put('/:postId/like', protectRoute, likeUnlikePost);
+postRouter.route('/:postId').get(getPostById).delete(protectRoute, deletePost);
+
+// Comments
+postRouter
+  .route('/:postId/comments')
+  .get(protectRoute, getPostComments)
+  .post(protectRoute, commentPost);
+
+postRouter.route('/').post(protectRoute, createPost).get(getAllPosts);

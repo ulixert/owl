@@ -38,14 +38,6 @@ export const UserUpdateSchema = BaseUserSchema.partial().omit({
 
 export const UserSchema = BaseUserSchema.merge(HasId);
 
-export const ReplySchema = z.object({
-  userId: ObjectIdSchema,
-  text: z.string().min(2).max(280),
-  userProfilePic: z.string().optional(),
-  likes: z.array(ObjectIdSchema).default([]),
-  username: z.string(),
-});
-
 export const BasePostSchema = z.object({
   postedBy: ObjectIdSchema,
   text: z.string().max(280).optional(),
@@ -76,21 +68,17 @@ export const BaseCommentSchema = z.object({
   postId: ObjectIdSchema,
   userId: ObjectIdSchema,
   text: z.string().max(280),
+  username: z.string(),
+  profilePicUrl: z.string().optional(),
   likes: z.array(ObjectIdSchema).default([]),
   parentCommentId: ObjectIdSchema.optional().nullable(),
   repliesCount: z.number().default(0),
 });
 
-export const CommentCreateSchema = BaseCommentSchema.omit({
-  userId: true,
-  likes: true,
-  parentCommentId: true,
-  repliesCount: true,
+export const CommentCreateSchema = BaseCommentSchema.pick({
+  text: true,
 });
 
 export const CommentUpdateSchema = BaseCommentSchema.partial().omit({
-  userId: true,
-  likes: true,
-  parentCommentId: true,
-  repliesCount: true,
+  text: true,
 });

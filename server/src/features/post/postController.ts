@@ -4,7 +4,7 @@ import { PostCreateSchema } from 'validation';
 import { PostModel } from '../../models/postModel.js';
 import { toObjectId } from '../../utils/toObjectId.js';
 
-export async function getPosts(_req: Request, res: Response) {
+export async function getAllPosts(_req: Request, res: Response) {
   try {
     const posts = await PostModel.find().sort({ createdAt: -1 });
     res.status(200).json({ posts });
@@ -14,9 +14,23 @@ export async function getPosts(_req: Request, res: Response) {
   }
 }
 
+export async function getFeedPosts(req: Request, res: Response) {
+  try {
+    const currentUserId = req.user!._id;
+    const posts = await PostModel.find({
+      postedBy: { $in: [currentUserId, ...req.user!.following] },
+    }).sort({ createdAt: -1 });
+
+    res.status(200).json({ message: 'Feed posts found', posts });
+  } catch (error) {
+    res.status(500).json({ error: 'An unknown error occurred' });
+    console.error('Error in getFeedPosts: ', error);
+  }
+}
+
 export async function getPostById(req: Request, res: Response) {
   try {
-    const postId = toObjectId(req.params.id);
+    const postId = toObjectId(req.params.postId);
     const post = await PostModel.findById(postId);
     if (!post) {
       res.status(404).json({ error: 'Post not found' });
@@ -58,7 +72,7 @@ export async function createPost(req: Request, res: Response) {
 
 export async function deletePost(req: Request, res: Response) {
   try {
-    const postId = toObjectId(req.params.id);
+    const postId = toObjectId(req.params.postId);
     const post = await PostModel.findById(postId);
     if (!post) {
       res.status(404).json({ error: 'Post not found' });
@@ -85,7 +99,7 @@ export async function deletePost(req: Request, res: Response) {
 
 export async function likeUnlikePost(req: Request, res: Response) {
   try {
-    const postId = toObjectId(req.params.id);
+    const postId = toObjectId(req.params.postId);
     const post = await PostModel.findById(postId);
     if (!post) {
       res.status(404).json({ error: 'Post not found' });
@@ -101,7 +115,7 @@ export async function likeUnlikePost(req: Request, res: Response) {
       });
     } else {
       await PostModel.findByIdAndUpdate(postId, {
-        $push: { likes: currentUserId },
+        $addToSet: { likes: currentUserId },
       });
     }
 
