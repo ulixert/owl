@@ -25,20 +25,13 @@ export const BaseUserSchema = z.object({
   active: z.boolean().default(true),
 });
 
-export const UserCreateSchema = BaseUserSchema.pick({
-  username: true,
+export const LoginSchema = BaseUserSchema.pick({
   email: true,
   password: true,
 });
 
-export const SignUpSchema = UserCreateSchema.extend({
-  confirmPassword: z.string(),
-}).refine((data) => data.password === data.confirmPassword, {
-  message: "Passwords don't match",
-  path: ['confirmPassword'],
-});
-
-export const LoginSchema = BaseUserSchema.pick({
+export const UserCreateSchema = BaseUserSchema.pick({
+  username: true,
   email: true,
   password: true,
 });

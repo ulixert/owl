@@ -1,7 +1,8 @@
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { SignUpSchema, SignUpType } from 'validation';
 
+import { SignUpSchema } from '@/types/schemas.ts';
+import { SignUpType } from '@/types/types.ts';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
   Anchor,
@@ -12,13 +13,12 @@ import {
   TextInput,
   Title,
 } from '@mantine/core';
-import { useAuthViewStore } from '@stores/useAuthViewStore.ts';
 
 import classes from '../Login/Login.module.css';
 
 export function Signup() {
+  // const signupMutation = useSignupMutation();
   const navigate = useNavigate();
-  const { setView } = useAuthViewStore();
 
   const {
     register,
@@ -27,9 +27,7 @@ export function Signup() {
   } = useForm<SignUpType>({ resolver: zodResolver(SignUpSchema) });
 
   const onSubmit = (data: SignUpType) => {
-    // Remove `confirmPassword` before sending the data to the backend
-    // const { ...userData } = data;
-    // signupMutation.mutate(userData, {
+    // signupMutation.mutate(data, {
     //   onSuccess: () => {
     //     navigate('/');
     //   },
@@ -44,11 +42,7 @@ export function Signup() {
       </Title>
       <Text c="dimmed" size="sm" ta="center" mt={5}>
         Already an Owl?{' '}
-        <Anchor
-          size="sm"
-          component="button"
-          onClick={() => setView('login', navigate)}
-        >
+        <Anchor size="sm" component="button" onClick={() => navigate('/login')}>
           Login
         </Anchor>
       </Text>
