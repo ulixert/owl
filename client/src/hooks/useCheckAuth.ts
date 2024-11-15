@@ -1,13 +1,21 @@
+import axios from 'axios';
 import { useEffect } from 'react';
+import { UserType } from 'validation';
 
-import { useAuthStore } from '@stores/userAuthStore.ts';
+import { useAuthStore } from '@stores/authStore.ts';
 
 export function useCheckAuth() {
-  const setAuthenticated = useAuthStore((state) => state.setAuthenticated);
+  const setUser = useAuthStore((state) => state.setUser);
 
   useEffect(() => {
-    // Check if JWT token exists in cookies
-    const tokenExists = document.cookie.includes('token=');
-    setAuthenticated(tokenExists);
-  }, [setAuthenticated]);
+    axios
+      .get<{ user: UserType }>('/api/posts/feed')
+      .then((response) => {
+        setUser(response.data.user);
+        console.log(response.data);
+      })
+      .catch(() => {
+        setUser(null);
+      });
+  }, [setUser]);
 }

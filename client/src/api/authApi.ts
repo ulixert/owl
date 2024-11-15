@@ -11,12 +11,17 @@ export type ApiResponse = {
 
 axios.defaults.withCredentials = true;
 
+const axiosInstance = axios.create({
+  baseURL: import.meta.env.VITE_API_URL as string,
+  withCredentials: true,
+});
+
 export const useSignupMutation = () => {
   const navigate = useNavigate();
 
   return useMutation({
     mutationFn: async (data: SignUpType) => {
-      const response = await axios.post('/api/signup', data);
+      const response = await axiosInstance.post('/api/signup', data);
       return response.data as ApiResponse;
     },
     onSuccess: () => {
@@ -30,7 +35,21 @@ export const useLoginMutation = () => {
 
   return useMutation({
     mutationFn: async (data: LoginType) => {
-      const response = await axios.post('/api/login', data);
+      const response = await axiosInstance.post('/api/login', data);
+      return response.data as ApiResponse;
+    },
+    onSuccess: () => {
+      navigate('/');
+    },
+  });
+};
+
+export const useLogoutMutation = () => {
+  const navigate = useNavigate();
+
+  return useMutation({
+    mutationFn: async () => {
+      const response = await axiosInstance.post('/api/logout');
       return response.data as ApiResponse;
     },
     onSuccess: () => {

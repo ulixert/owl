@@ -12,7 +12,7 @@ import UserPage from '@/pages/UserPage.tsx';
 import { Container } from '@mantine/core';
 
 function App() {
-  useCheckAuth(); // Initialize auth check on app load
+  useCheckAuth();
 
   return (
     <BrowserRouter

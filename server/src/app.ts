@@ -17,10 +17,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 // Routes
-const API_PREFIX = process.env.API_PREFIX ?? '/api/v1';
+export const API_PREFIX = process.env.API_PREFIX ?? '/api/v1';
 app.use(`${API_PREFIX}/users`, userRouter);
 app.use(`${API_PREFIX}/posts`, postRouter);
-app.use(`${API_PREFIX}`, authRouter);
+app.use(`${API_PREFIX}/auth`, authRouter);
 
 // Error handling
 app.all('*', (req, _, next: NextFunction) => {

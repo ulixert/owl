@@ -1,5 +1,5 @@
 ### login user
-POST {{api}}/login
+POST {{api}}/auth/login
 Content-Type: application/json
 
 {
@@ -8,7 +8,7 @@ Content-Type: application/json
 }
 
 ### login user 2
-POST {{api}}/login
+POST {{api}}/auth/login
 Content-Type: application/json
 
 {
@@ -16,8 +16,12 @@ Content-Type: application/json
   "password": "asd123456"
 }
 
+### Refresh token
+GET {{api}}/auth/refresh-token
+
+
 ### login user with wrong username
-POST {{api}}/login
+POST {{api}}/auth/login
 Content-Type: application/json
 
 {
@@ -27,7 +31,7 @@ Content-Type: application/json
 
 
 ### login user with wrong password
-POST {{api}}/login
+POST {{api}}/auth/login
 Content-Type: application/json
 
 {
@@ -36,4 +40,4 @@ Content-Type: application/json
 }
 
 ### logout user
-POST {{api}}/logout
+POST {{api}}/auth/logout

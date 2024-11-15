@@ -1,5 +1,13 @@
 import { HttpStatusCode } from '@/constants/constants.js';
 
+export class JWTError extends Error {
+  constructor(message: string) {
+    super(message);
+
+    Error.captureStackTrace(this, this.constructor);
+  }
+}
+
 export class HttpError extends Error {
   statusCode: number;
   status: 'fail' | 'error';

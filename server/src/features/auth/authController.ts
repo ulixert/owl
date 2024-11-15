@@ -1,10 +1,15 @@
 import { Request, Response } from 'express';
+import jwt from 'jsonwebtoken';
 import { LoginSchema, UserCreateSchema } from 'validation';
 
 import argon2 from '@node-rs/argon2';
 
+import { jwtVerify } from '../../middlewares/utils/jwtVerify.js';
 import { UserModel } from '../../models/userModel.js';
-import { generateTokenAndSetCookie } from '../../utils/generateTokenAndSetCookie.js';
+import {
+  generateAccessToken,
+  generateRefreshTokenAndSetCookie,
+} from '../../utils/generateTokenAndSetCookie.js';
 import { checkPassword } from './utils/checkPassword.js';
 
 export async function login(req: Request, res: Response) {
@@ -18,22 +23,21 @@ export async function login(req: Request, res: Response) {
 
     const { email, password } = input.data;
     const user = await UserModel.findOne({ email }).select('+password');
-
-    // Check if password is correct
-    const isPasswordCorrect = await checkPassword(user?.password, password);
-    if (!user || !isPasswordCorrect) {
+    if (!user) {
       res.status(400).json({ message: 'Invalid email or password' });
       return;
     }
 
-    // return user
-    generateTokenAndSetCookie(res, user._id.toString());
+    // Check if password is correct
+    const isPasswordCorrect = await checkPassword(user?.password, password);
+    if (!isPasswordCorrect) {
+      res.status(400).json({ message: 'Invalid email or password' });
+      return;
+    }
 
-    res.status(200).json({
-      _id: user._id,
-      email: user.email,
-      username: user.username,
-    });
+    // Generate tokens
+    generateRefreshTokenAndSetCookie(res, user._id);
+    res.status(200).json({ accessToken: generateAccessToken(user._id) });
   } catch (error) {
     res.status(500).json({ message: 'An unknown error occurred.' });
     console.error('Error in login: ', error);
@@ -42,7 +46,10 @@ export async function login(req: Request, res: Response) {
 
 export function logout(_req: Request, res: Response) {
   try {
-    res.clearCookie('jwt').status(200).json({ message: 'Logged out' });
+    res
+      .clearCookie('refreshToken')
+      .status(200)
+      .json({ message: 'Logged out successfully' });
   } catch (error) {
     res.status(500).json({ message: 'An unknown error occurred.' });
     console.error('Error in logout: ', error);
@@ -76,15 +83,48 @@ export async function signup(req: Request, res: Response) {
       password: hashedPassword,
     });
 
-    generateTokenAndSetCookie(res, newUser._id.toString());
-
-    res.status(201).json({
-      _id: newUser._id,
-      email: newUser.email,
-      username: newUser.username,
-    });
+    generateRefreshTokenAndSetCookie(res, newUser._id);
+    res.status(201).json({ accessToken: generateAccessToken(newUser._id) });
   } catch (error) {
     res.status(500).json({ message: 'An unknown error occurred.' });
     console.error('Error in signup: ', error);
+  }
+}
+
+// Token Refresh Function
+export async function refreshAccessToken(req: Request, res: Response) {
+  try {
+    const token =
+      typeof req.cookies?.refreshToken === 'string'
+        ? req.cookies.refreshToken
+        : undefined;
+    if (!token) {
+      res.status(401).json({ message: 'Refresh token not found' });
+      return;
+    }
+
+    const { userId } = await jwtVerify(
+      token,
+      process.env.REFRESH_TOKEN_SECRET!,
+    );
+
+    const accessToken = generateAccessToken(userId);
+
+    res.status(200).json({ accessToken });
+  } catch (error) {
+    if (error instanceof jwt.TokenExpiredError) {
+      res
+        .status(401)
+        .json({ message: 'Refresh token expired. Please log in again.' });
+      return;
+    } else if (error instanceof jwt.JsonWebTokenError) {
+      res
+        .status(401)
+        .json({ message: 'Invalid refresh token. Please log in again.' });
+      return;
+    }
+
+    console.error('Error in refreshAccessToken:', error);
+    res.status(500).json({ message: 'An unknown error occurred.' });
   }
 }
