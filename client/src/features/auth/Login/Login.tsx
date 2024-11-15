@@ -2,6 +2,8 @@ import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { LoginSchema, LoginType } from 'validation';
 
+import { useLoginMutation } from '@/api/authApi.ts';
+import { FormError } from '@/components/FormError/FormError.tsx';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
   Anchor,
@@ -19,6 +21,7 @@ import classes from './Login.module.css';
 
 export function Login() {
   const navigate = useNavigate();
+  const mutation = useLoginMutation();
 
   const {
     register,
@@ -27,7 +30,7 @@ export function Login() {
   } = useForm<LoginType>({ resolver: zodResolver(LoginSchema) });
 
   const onSubmit = (data: LoginType) => {
-    console.log(data);
+    mutation.mutate(data);
   };
 
   return (
@@ -47,6 +50,8 @@ export function Login() {
       </Text>
 
       <Paper withBorder shadow="md" p={30} mt={30} radius="md">
+        {mutation.isError && <FormError error={mutation.error} />}
+
         <form onSubmit={handleSubmit(onSubmit)}>
           <TextInput
             label="Email"
@@ -72,7 +77,7 @@ export function Login() {
               Forgot password?
             </Anchor>
           </Group>
-          <Button type="submit" fullWidth mt="xl">
+          <Button type="submit" fullWidth mt="xl" loading={mutation.isPending}>
             Sign in
           </Button>
         </form>

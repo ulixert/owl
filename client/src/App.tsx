@@ -4,6 +4,7 @@ import { Header } from '@/components/Header/Header.tsx';
 import { ForgotPassword } from '@/features/auth/ForgotPassword/ForgotPassword.tsx';
 import { Login } from '@/features/auth/Login/Login.tsx';
 import { Signup } from '@/features/auth/SignUp/SignUp.tsx';
+import { useCheckAuth } from '@/hooks/useCheckAuth.ts';
 import AuthPage from '@/pages/AuthPage.tsx';
 import HomePage from '@/pages/HomePage.tsx';
 import PostPage from '@/pages/PostPage.tsx';
@@ -11,6 +12,8 @@ import UserPage from '@/pages/UserPage.tsx';
 import { Container } from '@mantine/core';
 
 function App() {
+  useCheckAuth(); // Initialize auth check on app load
+
   return (
     <BrowserRouter
       future={{ v7_relativeSplatPath: true, v7_startTransition: true }}

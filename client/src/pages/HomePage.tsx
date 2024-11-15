@@ -4,7 +4,7 @@ import { Button, Flex } from '@mantine/core';
 
 function HomePage() {
   function handleClick() {
-    fetch('/api/posts')
+    fetch('/api/posts/feed')
       .then((res) => res.json())
       .then(console.log)
       .catch(console.error);

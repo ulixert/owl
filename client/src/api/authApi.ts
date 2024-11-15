@@ -1,34 +1,40 @@
-import { SignUpType } from 'validation';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { LoginType } from 'validation';
 
+import { SignUpType } from '@/types/types.ts';
 import { useMutation } from '@tanstack/react-query';
 
-export async function signup(data: SignUpType) {
-  const { confirmPassword, ...userData } = data;
+export type ApiResponse = {
+  message: string;
+};
 
-  const response = await fetch('/api/signup', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(userData),
-  });
-
-  if (!response.ok) {
-    const message = await response.text();
-    throw new Error(message);
-  }
-
-  return response.json();
-}
+axios.defaults.withCredentials = true;
 
 export const useSignupMutation = () => {
+  const navigate = useNavigate();
+
   return useMutation({
-    mutationFn: signup,
-    onSuccess: (user) => {
-      console.log('User signed up: ', user);
+    mutationFn: async (data: SignUpType) => {
+      const response = await axios.post('/api/signup', data);
+      return response.data as ApiResponse;
     },
-    onError: (error) => {
-      console.error('Error signing up: ', error);
+    onSuccess: () => {
+      navigate('/');
+    },
+  });
+};
+
+export const useLoginMutation = () => {
+  const navigate = useNavigate();
+
+  return useMutation({
+    mutationFn: async (data: LoginType) => {
+      const response = await axios.post('/api/login', data);
+      return response.data as ApiResponse;
+    },
+    onSuccess: () => {
+      navigate('/');
     },
   });
 };

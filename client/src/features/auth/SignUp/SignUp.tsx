@@ -1,6 +1,8 @@
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
+import { useSignupMutation } from '@/api/authApi.ts';
+import { FormError } from '@/components/FormError/FormError.tsx';
 import { SignUpSchema } from '@/types/schemas.ts';
 import { SignUpType } from '@/types/types.ts';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -17,7 +19,7 @@ import {
 import classes from '../Login/Login.module.css';
 
 export function Signup() {
-  // const signupMutation = useSignupMutation();
+  const mutation = useSignupMutation();
   const navigate = useNavigate();
 
   const {
@@ -27,12 +29,7 @@ export function Signup() {
   } = useForm<SignUpType>({ resolver: zodResolver(SignUpSchema) });
 
   const onSubmit = (data: SignUpType) => {
-    // signupMutation.mutate(data, {
-    //   onSuccess: () => {
-    //     navigate('/');
-    //   },
-    // });
-    console.log(data);
+    mutation.mutate(data);
   };
 
   return (
@@ -48,10 +45,12 @@ export function Signup() {
       </Text>
 
       <Paper withBorder shadow="md" p={30} mt={30} radius="md">
+        {mutation.isError && <FormError error={mutation.error} />}
+
         <form onSubmit={handleSubmit(onSubmit)}>
           <TextInput
             label="Email"
-            placeholder="your@email.com"
+            placeholder="barn@owl.com"
             {...register('email')}
             error={errors.email?.message}
           />
@@ -76,7 +75,8 @@ export function Signup() {
             error={errors.confirmPassword?.message}
             mt="md"
           />
-          <Button type="submit" fullWidth mt="xl">
+
+          <Button type="submit" fullWidth mt="xl" loading={mutation.isPending}>
             Signup
           </Button>
         </form>
