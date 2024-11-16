@@ -2,7 +2,6 @@ import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { LoginSchema, LoginType } from 'validation';
 
-import { useLoginMutation } from '@/api/authApi.ts';
 import { FormError } from '@/components/FormError/FormError.tsx';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
@@ -17,6 +16,7 @@ import {
   Title,
 } from '@mantine/core';
 
+import { useLoginMutation } from '../../hooks/useLoginMutation.ts';
 import classes from './Login.module.css';
 
 export function Login() {

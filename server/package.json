@@ -4,8 +4,9 @@
   "description": "",
   "scripts": {
     "dev": "tsx watch --clear-screen=false --env-file=.env src/server.ts",
+    "dev-no-watch": "tsx --env-file=.env src/server.ts",
     "clean": "rm -rf dist tsconfig.tsbuildinfo",
-    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "lint": "eslint . --report-unused-disable-directives --max-warnings 0",
     "build": "tsc --incremental",
     "start": "node --env-file=.prod.env dist/server.js",
     "test": "echo \\\"Error: no src/test specified\\\" && exit 1"

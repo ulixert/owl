@@ -1,4 +1,4 @@
-import { useLogoutMutation } from '@/api/authApi.ts';
+import { useLogoutMutation } from '@/features/auth/hooks/useLogoutMutation.ts';
 import { Button, Flex } from '@mantine/core';
 
 import { Logo } from '../Logo/Logo.tsx';

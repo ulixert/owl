@@ -2,8 +2,6 @@ import { Response } from 'express';
 import jwt from 'jsonwebtoken';
 import mongoose from 'mongoose';
 
-import { API_PREFIX } from '../app.js';
-
 const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET!;
 const REFRESH_TOKEN_SECRET = process.env.REFRESH_TOKEN_SECRET!;
 
@@ -20,7 +18,7 @@ export function generateRefreshTokenAndSetCookie(
     maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
     sameSite: 'strict', // CSRF
     secure: process.env.NODE_ENV === 'production',
-    path: `${API_PREFIX}/auth/refresh-token`,
+    // path: `${API_PREFIX}/auth/refresh-token`,
   });
 
   return token;

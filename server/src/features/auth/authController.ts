@@ -37,7 +37,10 @@ export async function login(req: Request, res: Response) {
 
     // Generate tokens
     generateRefreshTokenAndSetCookie(res, user._id);
-    res.status(200).json({ accessToken: generateAccessToken(user._id) });
+    res.status(200).json({
+      accessToken: generateAccessToken(user._id),
+      message: 'Logged in successfully',
+    });
   } catch (error) {
     res.status(500).json({ message: 'An unknown error occurred.' });
     console.error('Error in login: ', error);
@@ -84,7 +87,10 @@ export async function signup(req: Request, res: Response) {
     });
 
     generateRefreshTokenAndSetCookie(res, newUser._id);
-    res.status(201).json({ accessToken: generateAccessToken(newUser._id) });
+    res.status(201).json({
+      accessToken: generateAccessToken(newUser._id),
+      message: 'User created successfully',
+    });
   } catch (error) {
     res.status(500).json({ message: 'An unknown error occurred.' });
     console.error('Error in signup: ', error);

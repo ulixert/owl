@@ -1,7 +1,6 @@
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
-import { useSignupMutation } from '@/api/authApi.ts';
 import { FormError } from '@/components/FormError/FormError.tsx';
 import { SignUpSchema } from '@/types/schemas.ts';
 import { SignUpType } from '@/types/types.ts';
@@ -16,6 +15,7 @@ import {
   Title,
 } from '@mantine/core';
 
+import { useSignupMutation } from '../../hooks/useSignupMutation.ts';
 import classes from '../Login/Login.module.css';
 
 export function Signup() {
