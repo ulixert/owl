@@ -8,16 +8,15 @@ export function useAccessToken() {
   const setAccessToken = useAuthStore((state) => state.setAccessToken);
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
 
-  const { data: accessToken, isPending } = useQuery({
+  const { isPending, isError } = useQuery({
     queryKey: ['accessToken'],
     queryFn: async () => {
       const response = await axiosInstance.get<AuthResponse>(
         '/auth/refresh-token',
       );
 
-      const accessToken = response.data.accessToken;
-      setAccessToken(accessToken);
-      return accessToken;
+      setAccessToken(response.data.accessToken);
+      return response.data.accessToken;
     },
     retry: false,
     refetchInterval: () => (isAuthenticated ? 13 * MINUTE : false),
@@ -26,5 +25,5 @@ export function useAccessToken() {
     staleTime: 13 * MINUTE,
   });
 
-  return { accessToken, isPending } as const;
+  return { isPending, isError } as const;
 }

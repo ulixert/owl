@@ -11,8 +11,6 @@ import { PostItem } from '../PostItem/PostItem.tsx';
 export function PostList() {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
 
-  console.log('Initial isAuthenticated', isAuthenticated);
-
   async function fetchPosts() {
     const endpoint = isAuthenticated ? '/posts/feed' : '/posts/hot';
 
@@ -21,8 +19,6 @@ export function PostList() {
       posts: PostType[];
     }>(endpoint);
 
-    console.log('isAuthenticated', isAuthenticated);
-    console.log(response.data.posts);
     return response.data.posts;
   }
 

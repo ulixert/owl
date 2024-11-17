@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import { Header } from '@/components/Header/Header.tsx';
@@ -11,9 +12,17 @@ import HomePage from '@/pages/HomePage.tsx';
 import PostPage from '@/pages/PostPage.tsx';
 import UserPage from '@/pages/UserPage.tsx';
 import { Container } from '@mantine/core';
+import { useAuthStore } from '@stores/authStore.ts';
 
 function App() {
-  const { isPending } = useAccessToken();
+  const setAccessToken = useAuthStore((state) => state.setAccessToken);
+  const { isPending, isError } = useAccessToken();
+
+  useEffect(() => {
+    if (isError) {
+      setAccessToken(null);
+    }
+  }, [isError, setAccessToken]);
 
   if (isPending) {
     return <Loading />;
