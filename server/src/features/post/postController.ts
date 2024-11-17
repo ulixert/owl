@@ -28,6 +28,16 @@ export async function getFeedPosts(req: Request, res: Response) {
   }
 }
 
+export async function getHotPosts(_req: Request, res: Response) {
+  try {
+    const posts = await PostModel.find().sort({ likes: -1, createdAt: -1 });
+    res.status(200).json({ message: 'Hot posts found', posts });
+  } catch (error) {
+    res.status(500).json({ error: 'An unknown error occurred' });
+    console.error('Error in getHotPosts: ', error);
+  }
+}
+
 export async function getPostById(req: Request, res: Response) {
   try {
     const postId = toObjectId(req.params.postId);

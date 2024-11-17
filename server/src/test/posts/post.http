@@ -1,8 +1,12 @@
 ### Get all posts
 GET {{api}}/posts
 
+### Get hot posts
+GET {{api}}/posts/hot
+
 ### Get feed posts
 GET {{api}}/posts/feed
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzM1MzViYzAwZjQ0MTk2YjMyNTlmZWIiLCJpYXQiOjE3MzE3MDY3MjUsImV4cCI6MTczMTcwNzYyNX0.qRLjUJTtd0kdF58n0wCjBLQvwFLYyLnan0v7IslhIuM
 
 ### Get post by id
 GET {{api}}/posts/67355658f00a56547c761123

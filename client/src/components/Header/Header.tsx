@@ -1,9 +1,16 @@
-import { Flex } from '@mantine/core';
+import { useLogoutMutation } from '@/features/auth/hooks/useLogoutMutation.ts';
+import { Button, Flex } from '@mantine/core';
 
 import { Logo } from '../Logo/Logo.tsx';
 import styles from './Header.module.css';
 
 export function Header({ children }: React.PropsWithChildren) {
+  const mutation = useLogoutMutation();
+
+  function handleLogout() {
+    mutation.mutate();
+  }
+
   return (
     <Flex
       align="center"
@@ -14,6 +21,7 @@ export function Header({ children }: React.PropsWithChildren) {
     >
       {children}
       <Logo />
+      <Button onClick={handleLogout} />
     </Flex>
   );
 }

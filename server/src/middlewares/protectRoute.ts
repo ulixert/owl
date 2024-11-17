@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 
+import { JWTError } from '../errors/errors.js';
 import { UserModel } from '../models/userModel.js';
 import { jwtVerify } from './utils/jwtVerify.js';
 
@@ -10,10 +11,7 @@ export async function protectRoute(
 ) {
   try {
     // 1) Get the token from the headers
-    // const token = req.headers.authorization?.split(' ')[1];
-    const token =
-      typeof req.cookies?.jwt === 'string' ? req.cookies.jwt : undefined;
-
+    const token = req.headers.authorization?.split(' ')[1];
     if (!token) {
       res
         .status(401)
@@ -22,7 +20,7 @@ export async function protectRoute(
     }
 
     // 2) Verify the token
-    const { userId } = await jwtVerify(token, process.env.JWT_SECRET!);
+    const { userId } = await jwtVerify(token, process.env.ACCESS_TOKEN_SECRET!);
 
     // 3) Check if user still exists
     const user = await UserModel.findById(userId);
@@ -36,6 +34,11 @@ export async function protectRoute(
     req.user = user;
     next();
   } catch (error) {
+    if (error instanceof JWTError) {
+      res.status(401).json({ message: 'Invalid token. Please log in again.' });
+      return;
+    }
+
     res.status(500).json({ message: 'An unknown error occurred.' });
     console.error('Error in protectRoute: ', error);
   }

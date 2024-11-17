@@ -1,23 +1,27 @@
 ### login user
-POST {{api}}/users/login
+POST {{api}}/auth/login
 Content-Type: application/json
 
 {
-  "username": "thomas",
+  "email": "thomas@email.com",
   "password": "asd123456"
 }
 
 ### login user 2
-POST {{api}}/users/login
+POST {{api}}/auth/login
 Content-Type: application/json
 
 {
-  "username": "joe",
+  "email": "joe@email.com",
   "password": "asd123456"
 }
 
+### Refresh token
+GET {{api}}/auth/refresh-token
+
+
 ### login user with wrong username
-POST {{api}}/users/login
+POST {{api}}/auth/login
 Content-Type: application/json
 
 {
@@ -27,7 +31,7 @@ Content-Type: application/json
 
 
 ### login user with wrong password
-POST {{api}}/users/login
+POST {{api}}/auth/login
 Content-Type: application/json
 
 {
@@ -36,4 +40,4 @@ Content-Type: application/json
 }
 
 ### logout user
-POST {{api}}/users/logout
+POST {{api}}/auth/logout

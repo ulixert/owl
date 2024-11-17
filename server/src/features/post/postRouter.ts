@@ -7,6 +7,7 @@ import {
   deletePost,
   getAllPosts,
   getFeedPosts,
+  getHotPosts,
   getPostById,
   likeUnlikePost,
 } from './postController.js';
@@ -14,6 +15,7 @@ import {
 export const postRouter: Router = express.Router();
 
 postRouter.get('/feed', protectRoute, getFeedPosts);
+postRouter.get('/hot', getHotPosts);
 
 postRouter.put('/:postId/like', protectRoute, likeUnlikePost);
 postRouter.route('/:postId').get(getPostById).delete(protectRoute, deletePost);

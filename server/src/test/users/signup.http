@@ -1,27 +1,25 @@
 ### signup user
-POST {{api}}/users/signup
+POST {{api}}/signup
 Content-Type: application/json
 
 {
 "username": "thomas",
 "email": "thomas@email.com",
-"password": "asd123456",
-"name": "Thomas Smith"
+"password": "asd123456"
 }
 
 ### signup user 2
-POST {{api}}/users/signup
+POST {{api}}/signup
 Content-Type: application/json
 
 {
 "username": "joe",
 "email": "joe@email.com",
-"password": "asd123456",
-"name": "Joe Smith"
+"password": "asd123456"
 }
 
 ### Signup user with invalid field using zod
-POST {{api}}/users/signup
+POST {{api}}/signup
 Content-Type: application/json
 
 {

@@ -14,3 +14,6 @@ Content-Type: application/json
 
 ### Get user by username
 GET {{api}}/users/thomas
+
+### Get user profile
+GET {{api}}/users/me/profile

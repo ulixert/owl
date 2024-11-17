@@ -1,4 +1,14 @@
+import jwt from 'jsonwebtoken';
+
 import { HttpStatusCode } from '@/constants/constants.js';
+
+export class JWTError extends jwt.JsonWebTokenError {
+  constructor(message: string) {
+    super(message);
+
+    Error.captureStackTrace(this, this.constructor);
+  }
+}
 
 export class HttpError extends Error {
   statusCode: number;
