@@ -10,12 +10,16 @@ export function generateRefreshTokenAndSetCookie(
   userId: mongoose.Types.ObjectId,
 ) {
   const token = jwt.sign({ userId }, REFRESH_TOKEN_SECRET, {
-    expiresIn: '7d',
+    // expiresIn: '7d',
+    // 20 seconds for testing
+    expiresIn: '60s',
   });
-
+  // TODO: Set the refresh token in a cookie
   res.cookie('refreshToken', token, {
     httpOnly: true,
-    maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
+    // maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
+    // 5 seconds for testing
+    maxAge: 1000 * 60,
     sameSite: 'strict', // CSRF
     secure: process.env.NODE_ENV === 'production',
     // path: `${API_PREFIX}/auth/refresh-token`,
@@ -26,6 +30,8 @@ export function generateRefreshTokenAndSetCookie(
 
 export function generateAccessToken(userId: mongoose.Types.ObjectId) {
   return jwt.sign({ userId }, ACCESS_TOKEN_SECRET, {
-    expiresIn: '15m',
+    // expiresIn: '15m',
+    // 5 seconds for testing
+    expiresIn: '5s',
   });
 }

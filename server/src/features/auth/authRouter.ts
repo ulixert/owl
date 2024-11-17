@@ -7,4 +7,4 @@ export const authRouter: Router = Router();
 authRouter.post('/signup', signup);
 authRouter.post('/login', login);
 authRouter.post('/logout', logout);
-authRouter.post('/refresh-token', refreshAccessToken);
+authRouter.get('/refresh-token', refreshAccessToken);

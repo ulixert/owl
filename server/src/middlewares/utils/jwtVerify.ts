@@ -1,6 +1,8 @@
 import jwt from 'jsonwebtoken';
 import mongoose from 'mongoose';
 
+import { JWTError } from '../../errors/errors.js';
+
 type JwtPayload = {
   userId: mongoose.Types.ObjectId;
   iat: number;
@@ -14,7 +16,7 @@ export async function jwtVerify(
   return new Promise((resolve, reject) => {
     jwt.verify(token, secret, (err, decoded) => {
       if (err || !decoded || typeof decoded !== 'object') {
-        return reject(new Error(err?.message ?? 'Invalid JWT token'));
+        return reject(new JWTError(err?.message ?? 'Invalid JWT token'));
       }
       resolve(decoded as JwtPayload);
     });

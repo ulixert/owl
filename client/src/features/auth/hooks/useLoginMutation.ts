@@ -12,12 +12,9 @@ export const useLoginMutation = () => {
   return useMutation({
     mutationFn: async (data: LoginType) => {
       const response = await axiosInstance.post('/auth/login', data);
-      console.log('response', response); // TODO: Remove this line
-      console.log('response.data', response.data); // TODO: Remove this line
       return response.data as AuthResponse;
     },
     onSuccess: ({ accessToken }) => {
-      console.log('accessToken', accessToken); // TODO: Remove this line
       setAccessToken(accessToken);
       navigate(-1);
     },

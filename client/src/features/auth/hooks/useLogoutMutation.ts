@@ -6,7 +6,7 @@ import { useMutation } from '@tanstack/react-query';
 
 export const useLogoutMutation = () => {
   const navigate = useNavigate();
-  const logout = useAuthStore((state) => state.logout);
+  const setAccessToken = useAuthStore((state) => state.setAccessToken);
 
   return useMutation({
     mutationFn: async () => {
@@ -14,7 +14,7 @@ export const useLogoutMutation = () => {
       return response.data as AuthResponse;
     },
     onSuccess: () => {
-      logout();
+      setAccessToken(null);
       navigate('/');
     },
   });

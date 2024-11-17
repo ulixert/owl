@@ -1,6 +1,8 @@
+import jwt from 'jsonwebtoken';
+
 import { HttpStatusCode } from '@/constants/constants.js';
 
-export class JWTError extends Error {
+export class JWTError extends jwt.JsonWebTokenError {
   constructor(message: string) {
     super(message);
 

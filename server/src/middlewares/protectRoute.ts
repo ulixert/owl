@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
-import jwt from 'jsonwebtoken';
 
+import { JWTError } from '../errors/errors.js';
 import { UserModel } from '../models/userModel.js';
 import { jwtVerify } from './utils/jwtVerify.js';
 
@@ -34,10 +34,7 @@ export async function protectRoute(
     req.user = user;
     next();
   } catch (error) {
-    if (error instanceof jwt.TokenExpiredError) {
-      res.status(401).json({ message: 'Token expired. Please log in again.' });
-      return;
-    } else if (error instanceof jwt.JsonWebTokenError) {
+    if (error instanceof JWTError) {
       res.status(401).json({ message: 'Invalid token. Please log in again.' });
       return;
     }
