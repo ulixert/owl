@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 
+import { prisma } from '../db/index.js';
 import { JWTError } from '../errors/errors.js';
-import { UserModel } from '../models/userModel.js';
 import { jwtVerify } from './utils/jwtVerify.js';
 
 export async function protectRoute(
@@ -13,9 +13,10 @@ export async function protectRoute(
     // 1) Get the token from the headers
     const token = req.headers.authorization?.split(' ')[1];
     if (!token) {
-      res
-        .status(401)
-        .json({ message: 'Unauthorized. Please log in to get access.' });
+      res.status(401).json({
+        status: 'error',
+        message: 'Unauthorized. Please log in to get access.',
+      });
       return;
     }
 
@@ -23,9 +24,12 @@ export async function protectRoute(
     const { userId } = await jwtVerify(token, process.env.ACCESS_TOKEN_SECRET!);
 
     // 3) Check if user still exists
-    const user = await UserModel.findById(userId);
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+    });
     if (!user) {
       res.status(401).json({
+        status: 'error',
         message: 'The user belonging to this token no longer exists.',
       });
       return;
@@ -35,11 +39,17 @@ export async function protectRoute(
     next();
   } catch (error) {
     if (error instanceof JWTError) {
-      res.status(401).json({ message: 'Invalid token. Please log in again.' });
+      res.status(401).json({
+        status: 'error',
+        message: 'Invalid token. Please log in again.',
+      });
       return;
     }
 
-    res.status(500).json({ message: 'An unknown error occurred.' });
+    res.status(500).json({
+      status: 'error',
+      message: 'An unknown error occurred.',
+    });
     console.error('Error in protectRoute: ', error);
   }
 }

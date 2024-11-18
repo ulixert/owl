@@ -1,6 +1,9 @@
 ### Get all posts
 GET {{api}}/posts
 
+### Get all posts
+GET http://localhost:3000/api/v1/posts
+
 ### Get hot posts
 GET {{api}}/posts/hot
 
