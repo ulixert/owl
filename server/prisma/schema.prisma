@@ -5,7 +5,8 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["typedSql"]
 }
 
 datasource db {
@@ -81,15 +82,19 @@ model Like {
 }
 
 model Repost {
-  id        Int      @id @default(autoincrement())
-  userId    Int
-  postId    Int
-  createdAt DateTime @default(now())
+  id             Int      @id @default(autoincrement())
+  userId         Int
+  postId         Int
+  originalPostId Int
+  originalUserId Int
+  createdAt      DateTime @default(now())
 
   user User @relation(fields: [userId], references: [id])
   post Post @relation(fields: [postId], references: [id])
 
   @@unique([userId, postId])
+  @@index([originalPostId])
+  @@index([originalUserId])
 }
 
 model Save {

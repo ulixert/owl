@@ -112,6 +112,8 @@ export const RepostSchema = z.object({
   id: z.number().int(),
   userId: z.number().int(),
   postId: z.number().int(),
+  originalPostId: z.number().int(),
+  originalAuthorId: z.number().int(),
   createdAt: z.coerce.date(),
 });
 

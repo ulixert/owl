@@ -14,7 +14,6 @@ export async function protectRoute(
     const token = req.headers.authorization?.split(' ')[1];
     if (!token) {
       res.status(401).json({
-        status: 'error',
         message: 'Unauthorized. Please log in to get access.',
       });
       return;
@@ -29,7 +28,6 @@ export async function protectRoute(
     });
     if (!user) {
       res.status(401).json({
-        status: 'error',
         message: 'The user belonging to this token no longer exists.',
       });
       return;
@@ -40,14 +38,12 @@ export async function protectRoute(
   } catch (error) {
     if (error instanceof JWTError) {
       res.status(401).json({
-        status: 'error',
         message: 'Invalid token. Please log in again.',
       });
       return;
     }
 
     res.status(500).json({
-      status: 'error',
       message: 'An unknown error occurred.',
     });
     console.error('Error in protectRoute: ', error);

@@ -5,7 +5,6 @@ import { commentPost, getPostComments } from '../comment/commentController.js';
 import {
   createPost,
   deletePost,
-  getAllPosts,
   getFeedPosts,
   getHotPosts,
   getPostById,
@@ -26,4 +25,4 @@ postRouter
   .get(protectRoute, getPostComments)
   .post(protectRoute, commentPost);
 
-postRouter.route('/').post(protectRoute, createPost).get(getAllPosts);
+postRouter.route('/').post(protectRoute, createPost);

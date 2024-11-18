@@ -61,6 +61,8 @@ CREATE TABLE "Repost" (
     "id" SERIAL NOT NULL,
     "userId" INTEGER NOT NULL,
     "postId" INTEGER NOT NULL,
+    "originalPostId" INTEGER NOT NULL,
+    "originalUserId" INTEGER NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "Repost_pkey" PRIMARY KEY ("id")
@@ -87,6 +89,12 @@ CREATE UNIQUE INDEX "UserFollows_followerId_followingId_key" ON "UserFollows"("f
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Like_userId_postId_key" ON "Like"("userId", "postId");
+
+-- CreateIndex
+CREATE INDEX "Repost_originalPostId_idx" ON "Repost"("originalPostId");
+
+-- CreateIndex
+CREATE INDEX "Repost_originalUserId_idx" ON "Repost"("originalUserId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Repost_userId_postId_key" ON "Repost"("userId", "postId");

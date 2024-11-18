@@ -9,6 +9,4 @@ services:
     environment:
       - POSTGRES_USER
       - POSTGRES_PASSWORD
-      - POSTGRES_DB=${POSTGRES_DB}
-    volumes:
-      - ./data/db:/var/lib/postgresql/data
+      - POSTGRES_DB
