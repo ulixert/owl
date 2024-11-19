@@ -45,10 +45,11 @@ export function PostList() {
       {posts.length > 0 ? (
         posts.map((post) => (
           <PostItem
-            likes={post.likes.length}
+            likes={post.likesCount}
             replies={post.commentsCount}
             postText={post.text ?? 'empty'}
-            key={post.text}
+            postImg={post?.images?.[0] ?? ''}
+            key={post.id}
           />
         ))
       ) : (
