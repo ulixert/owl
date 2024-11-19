@@ -1,10 +1,9 @@
 import jwt from 'jsonwebtoken';
-import mongoose from 'mongoose';
 
 import { JWTError } from '../../errors/errors.js';
 
 type JwtPayload = {
-  userId: mongoose.Types.ObjectId;
+  userId: number;
   iat: number;
   exp: number;
 };

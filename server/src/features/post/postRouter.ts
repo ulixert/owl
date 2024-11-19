@@ -1,15 +1,18 @@
 import express, { Router } from 'express';
 
 import { protectRoute } from '../../middlewares/protectRoute.js';
-import { commentPost, getPostComments } from '../comment/commentController.js';
+import {
+  likeUnlikePost,
+  repostUnrepost,
+  saveOrUnsavePost,
+} from './actionController.js';
+import { getFeedPosts } from './feedController.js';
 import {
   createPost,
   deletePost,
-  getAllPosts,
-  getFeedPosts,
+  getChildPosts,
   getHotPosts,
   getPostById,
-  likeUnlikePost,
 } from './postController.js';
 
 export const postRouter: Router = express.Router();
@@ -17,13 +20,15 @@ export const postRouter: Router = express.Router();
 postRouter.get('/feed', protectRoute, getFeedPosts);
 postRouter.get('/hot', getHotPosts);
 
+postRouter.get('/:postId', getPostById);
+postRouter.get('/:postId/comments', getChildPosts);
+
+postRouter.post('/:parentPostId', protectRoute, createPost);
+postRouter.post('/', protectRoute, createPost);
+
+postRouter.delete('/:postId', protectRoute, deletePost);
+
+// Like, save, and repost routes
 postRouter.put('/:postId/like', protectRoute, likeUnlikePost);
-postRouter.route('/:postId').get(getPostById).delete(protectRoute, deletePost);
-
-// Comments
-postRouter
-  .route('/:postId/comments')
-  .get(protectRoute, getPostComments)
-  .post(protectRoute, commentPost);
-
-postRouter.route('/').post(protectRoute, createPost).get(getAllPosts);
+postRouter.put('/:postId/save', protectRoute, saveOrUnsavePost);
+postRouter.put('/:postId/repost', protectRoute, repostUnrepost);

@@ -1,13 +1,10 @@
 import cookieParser from 'cookie-parser';
 import express, { Application, NextFunction } from 'express';
 
-import { connectDB } from './db/connectDB.js';
 import { NotFoundError } from './errors/errors.js';
 import { authRouter } from './features/auth/authRouter.js';
 import { postRouter } from './features/post/postRouter.js';
 import { userRouter } from './features/user/userRouter.js';
-
-void connectDB();
 
 export const app: Application = express();
 

@@ -1,4 +1,4 @@
-import { BaseUserSchema, UserCreateSchema } from 'validation';
+import { UserCreateSchema, UserSchema } from 'validation';
 import { z } from 'zod';
 
 export const SignUpSchema = UserCreateSchema.extend({
@@ -8,6 +8,6 @@ export const SignUpSchema = UserCreateSchema.extend({
   path: ['confirmPassword'],
 });
 
-export const ForgotPasswordSchema = BaseUserSchema.pick({
+export const ForgotPasswordSchema = UserSchema.pick({
   email: true,
 });
