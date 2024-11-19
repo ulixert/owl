@@ -6,4 +6,4 @@ export type PostType = z.infer<typeof PostSchema>;
 export type LoginType = z.infer<typeof LoginSchema>;
 
 type UserWithPasswordType = z.infer<typeof UserSchema>;
-export type UserType = Omit<UserWithPasswordType, 'password'>;
+export type UserType = Omit<UserWithPasswordType, 'password' | 'role'>;

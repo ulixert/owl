@@ -16,7 +16,7 @@ export async function getFeedPosts(req: Request, res: Response) {
     const { cursor, limit } = input.data;
 
     const posts = await prisma.$queryRawTyped(
-      selectFeedPosts(currentUserId, cursor, limit),
+      selectFeedPosts(currentUserId, cursor ?? 0, limit),
     );
 
     const nextCursor = posts.length > 0 ? posts[posts.length - 1].id : null;

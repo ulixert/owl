@@ -1,43 +1,44 @@
-### Get all posts
-GET {{api}}/posts
-
-### Get all posts
-GET http://localhost:3000/api/v1/posts
-
 ### Get hot posts
 GET {{api}}/posts/hot
 
 ### Get feed posts
-GET {{api}}/posts/feed
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzM1MzViYzAwZjQ0MTk2YjMyNTlmZWIiLCJpYXQiOjE3MzE3MDY3MjUsImV4cCI6MTczMTcwNzYyNX0.qRLjUJTtd0kdF58n0wCjBLQvwFLYyLnan0v7IslhIuM
+GET {{api}}/posts/feed?cursor=2&limit=5
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTczMTk4NTA1NiwiZXhwIjoxNzMxOTg1OTU2fQ.00kWUov4JxhBedFJ-fe9nzCBFqV3tKHZFTzKXMzRFII
 
 ### Get post by id
-GET {{api}}/posts/67355658f00a56547c761123
+GET {{api}}/posts/3
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTczMTk4NjA3NywiZXhwIjoxNzMxOTg2OTc3fQ.PHubF14jbKECpaACe5S2_wlcMIvo2DTIPcHsfYGIosc
 
 ### Create a post
-POST {{api}}/posts
+POST {{api}}/posts/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTczMTk4NjA3NywiZXhwIjoxNzMxOTg2OTc3fQ.PHubF14jbKECpaACe5S2_wlcMIvo2DTIPcHsfYGIosc
 Content-Type: application/json
 
 {
-    "text": "Post text"
+    "text": "I'm a comment to post 1"
 }
 
-### Create a post without text and image
+
+### Create a post only with images
 POST {{api}}/posts
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTczMTk4NTA1NiwiZXhwIjoxNzMxOTg1OTU2fQ.00kWUov4JxhBedFJ-fe9nzCBFqV3tKHZFTzKXMzRFII
 Content-Type: application/json
 
 {
-    "text": "Post text"
+    "images": ["https://i.imgur.com/FmkzNI2.png", "https://i.imgur.com/NqQIwEV.png"]
 }
 
 ### Delete a post
-DELETE {{api}}/posts/67358c28f257b691e797857e
+DELETE {{api}}/posts/4
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTczMTk4NTA1NiwiZXhwIjoxNzMxOTg1OTU2fQ.00kWUov4JxhBedFJ-fe9nzCBFqV3tKHZFTzKXMzRFII
 
 ### Like/unlike a post
-PUT {{api}}/posts/67358c28f257b691e797857e/like
+PUT {{api}}/posts/3/like
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTczMTk4NTA1NiwiZXhwIjoxNzMxOTg1OTU2fQ.00kWUov4JxhBedFJ-fe9nzCBFqV3tKHZFTzKXMzRFII
 
 ### Get all comments of a post
-GET {{api}}/posts/67358c28f257b691e797857e/comments
+GET {{api}}/posts/1/comments
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTczMTk4NTA1NiwiZXhwIjoxNzMxOTg1OTU2fQ.00kWUov4JxhBedFJ-fe9nzCBFqV3tKHZFTzKXMzRFII
 
 ### Comment on a post
 POST {{api}}/posts/67358c28f257b691e797857e/comments

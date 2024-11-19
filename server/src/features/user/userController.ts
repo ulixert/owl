@@ -132,6 +132,9 @@ export async function getUserProfile(req: Request, res: Response) {
     const { username } = req.params;
     const user = await prisma.user.findUnique({
       where: { username },
+      omit: {
+        updatedAt: true,
+      },
     });
 
     if (!user) {

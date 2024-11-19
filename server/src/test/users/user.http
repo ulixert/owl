@@ -1,11 +1,10 @@
-### Get all users
-GET {{api}}/users
-
 ### Follow/unfollow user
-PUT {{api}}/users/follow/673535bc00f44196b3259feb
+PUT {{api}}/users/follow/2
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTczMTk4MjYyMCwiZXhwIjoxNzMxOTgzNTIwfQ.JFyTXpqIopPhlq-xnAIJVjWDLrTiMS5F0VxqspmGEYU
 
 ### Update a user
-PUT {{api}}/users
+PUT {{api}}/users/me/profile
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTczMTk4MjYyMCwiZXhwIjoxNzMxOTgzNTIwfQ.JFyTXpqIopPhlq-xnAIJVjWDLrTiMS5F0VxqspmGEYU
 Content-Type: application/json
 
 {
@@ -13,7 +12,4 @@ Content-Type: application/json
 }
 
 ### Get user by username
-GET {{api}}/users/thomas
-
-### Get user profile
-GET {{api}}/users/me/profile
+GET {{api}}/users/joe

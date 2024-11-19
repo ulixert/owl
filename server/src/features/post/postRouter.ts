@@ -21,7 +21,7 @@ postRouter.get('/feed', protectRoute, getFeedPosts);
 postRouter.get('/hot', getHotPosts);
 
 postRouter.get('/:postId', getPostById);
-postRouter.get('/:postId/children', getChildPosts);
+postRouter.get('/:postId/comments', getChildPosts);
 
 postRouter.post('/:parentPostId', protectRoute, createPost);
 postRouter.post('/', protectRoute, createPost);
