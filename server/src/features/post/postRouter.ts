@@ -2,15 +2,17 @@ import express, { Router } from 'express';
 
 import { protectRoute } from '../../middlewares/protectRoute.js';
 import {
-  createPost,
-  deletePost,
-  getChildPosts,
-  getFeedPosts,
-  getHotPosts,
-  getPostById,
   likeUnlikePost,
   repostUnrepost,
   saveOrUnsavePost,
+} from './actionController.js';
+import { getFeedPosts } from './feedController.js';
+import {
+  createPost,
+  deletePost,
+  getChildPosts,
+  getHotPosts,
+  getPostById,
 } from './postController.js';
 
 export const postRouter: Router = express.Router();
