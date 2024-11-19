@@ -32,7 +32,8 @@
       "@/utils/*": ["utils/*"],
       "@/theme/*": ["theme/*"],
       "@/api/*": ["api/*"],
-      "@stores/*": ["stores/*"]
+      "@stores/*": ["stores/*"],
+      "@layouts/*": ["layouts/*"]
     }
   },
   "include": ["src"],

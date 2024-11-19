@@ -16,7 +16,7 @@ export function Logo() {
 
   return (
     <Flex justify="center">
-      <UnstyledButton w={24} onClick={handleColorSchemeChange}>
+      <UnstyledButton w={30} onClick={handleColorSchemeChange}>
         <Image
           src={
             computedColorScheme === 'light'
