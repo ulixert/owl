@@ -1,7 +1,4 @@
 body {
-  background-color: light-dark(
-    var(--mantine-color-white),
-    var(--mantine-color-dark-9)
-  );
+  background-color: light-dark(#fafafa, #0a0a0a);
   color: light-dark(var(--mantine-color-gray-9), var(--mantine-color-gray-0));
 }

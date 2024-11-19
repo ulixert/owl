@@ -11,7 +11,6 @@ import HomePage from '@/pages/HomePage.tsx';
 import PostPage from '@/pages/PostPage.tsx';
 import UserPage from '@/pages/UserPage.tsx';
 import { Layout } from '@layouts/Layout/Layout.tsx';
-import { Container } from '@mantine/core';
 import { useAuthStore } from '@stores/authStore.ts';
 
 function App() {
@@ -33,26 +32,24 @@ function App() {
       future={{ v7_relativeSplatPath: true, v7_startTransition: true }}
     >
       <Layout>
-        <Container size={620}>
-          <Routes>
-            {/* Home Page Route */}
-            <Route path="/" element={<HomePage />} />
+        <Routes>
+          {/* Home Page Route */}
+          <Route path="/" element={<HomePage />} />
 
-            {/* Auth Routes using Nested Routing */}
-            <Route path="/" element={<AuthPage />}>
-              <Route path="login" element={<Login />} />
-              <Route path="signup" element={<Signup />} />
-              <Route path="forgot-password" element={<ForgotPassword />} />
-            </Route>
+          {/* Auth Routes using Nested Routing */}
+          <Route path="/" element={<AuthPage />}>
+            <Route path="login" element={<Login />} />
+            <Route path="signup" element={<Signup />} />
+            <Route path="forgot-password" element={<ForgotPassword />} />
+          </Route>
 
-            {/* User Routes */}
-            <Route path=":username" element={<UserPage />} />
-            <Route path=":username/post/:pid" element={<PostPage />} />
+          {/* User Routes */}
+          <Route path=":username" element={<UserPage />} />
+          <Route path=":username/post/:pid" element={<PostPage />} />
 
-            {/* 404 Route */}
-            <Route path="*" element={<div>404 Not Found</div>} />
-          </Routes>
-        </Container>
+          {/* 404 Route */}
+          <Route path="*" element={<div>404 Not Found</div>} />
+        </Routes>
       </Layout>
     </BrowserRouter>
   );

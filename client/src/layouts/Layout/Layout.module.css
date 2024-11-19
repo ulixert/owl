@@ -1,0 +1,10 @@
+.navbar {
+  background-color: light-dark(#fafafa, #0a0a0a);
+  color: light-dark(var(--mantine-color-gray-9), var(--mantine-color-gray-0));
+}
+
+.main {
+  border-radius: var(--mantine-radius-lg);
+  background-color: light-dark(#fff, #181818);
+  color: light-dark(var(--mantine-color-gray-9), var(--mantine-color-gray-0));
+}

@@ -1,49 +1,42 @@
-import { Logo } from '@/components/Logo/Logo.tsx';
-import { AppShell, Burger, Center, Group, Stack } from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
-import { IconLogout, IconSwitchHorizontal } from '@tabler/icons-react';
+import { AppShell, Container } from '@mantine/core';
 
-import { NavLink } from '../NavLinks/NavLink.tsx';
-import { NavLinks } from '../NavLinks/NavLinks.tsx';
+import { Footer } from '../Footer/Footer.tsx';
+import { Header } from '../Header/Header.tsx';
+import { NavBar } from '../NavBar/NavBar.tsx';
+import classes from './Layout.module.css';
 
 type LayoutProps = {
   children: React.ReactNode;
 };
 
 export function Layout({ children }: LayoutProps) {
-  const [opened, { toggle }] = useDisclosure();
-
   return (
     <AppShell
       layout="alt"
-      header={{ height: 60 }}
-      footer={{ height: 60, collapsed: !opened }}
-      navbar={{ width: 70, breakpoint: 'sm', collapsed: { mobile: !opened } }}
       padding="md"
+      transitionDuration={500}
+      transitionTimingFunction="ease"
     >
-      <AppShell.Header>
-        <Group h="100%" px="md">
-          <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
-        </Group>
+      <AppShell.Header withBorder={false}>
+        {/*<Group h="100%" px="md">*/}
+        {/*  <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />*/}
+        {/*</Group>*/}
+        <Header />
       </AppShell.Header>
-      <AppShell.Navbar p="md">
-        <Center>
-          <Logo />
-        </Center>
-
-        <Stack justify="center" align="center" gap={10} flex={1}>
-          <NavLinks />
-        </Stack>
-
-        <Stack justify="center" gap={0}>
-          <NavLink icon={IconSwitchHorizontal} label="Change account" />
-          <NavLink icon={IconLogout} label="Logout" />
-        </Stack>
+      <AppShell.Navbar
+        p="md"
+        visibleFrom="sm"
+        withBorder={false}
+        className={classes.navbar}
+      >
+        <NavBar />
       </AppShell.Navbar>
-      <AppShell.Main>{children}</AppShell.Main>
-      <AppShell.Footer p="md">
-        <NavLinks />
-      </AppShell.Footer>
+      <Container size={640} className={classes.container}>
+        <AppShell.Main className={classes.main}>{children}</AppShell.Main>
+        <AppShell.Footer hiddenFrom="sm" withBorder={false}>
+          <Footer />
+        </AppShell.Footer>
+      </Container>
     </AppShell>
   );
 }
