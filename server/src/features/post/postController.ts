@@ -4,34 +4,62 @@ import { PostCreateSchema } from 'validation';
 import { selectFeedPosts } from '@prisma/client/sql';
 
 import { prisma } from '../../db/index.js';
-import { postQuerySchema } from '../../types/validation/schemas.js';
+import {
+  createPostPramsSchema,
+  postParamsSchema,
+  postQuerySchema,
+} from '../../types/validation/schemas.js';
 
 export async function getFeedPosts(req: Request, res: Response) {
   try {
     const currentUserId = req.user!.id;
-    const { cursor, limit = 10 } = req.query;
+    const input = postQuerySchema.safeParse(req.query);
+    if (!input.success) {
+      res.status(400).json({ message: 'Invalid query params' });
+      return;
+    }
+    const { cursor, limit } = input.data;
 
-    // Construct the cursor condition for pagination
-    const cursorCondition = cursor ? Number(cursor) : 0;
-
-    // Use raw SQL query with cursor-based pagination
     const posts = await prisma.$queryRawTyped(
-      selectFeedPosts(currentUserId, cursorCondition, Number(limit)),
+      selectFeedPosts(currentUserId, cursor, limit),
     );
 
-    res.status(200).json({ message: 'Feed posts found', posts });
+    const nextCursor = posts.length > 0 ? posts[posts.length - 1].id : null;
+
+    res.status(200).json({ posts, nextCursor });
   } catch (error) {
     res.status(500).json({ error: 'An unknown error occurred' });
     console.error('Error in getFeedPosts: ', error);
   }
 }
 
-export async function getHotPosts(_req: Request, res: Response) {
+export async function getHotPosts(req: Request, res: Response) {
   try {
+    const input = postQuerySchema.safeParse(req.query);
+    if (!input.success) {
+      res.status(400).json({ message: 'Invalid query params' });
+      return;
+    }
+    const { cursor, limit } = input.data;
+
     const posts = await prisma.post.findMany({
-      orderBy: { likesCount: 'desc', commentsCount: 'desc' },
+      orderBy: { likesCount: 'desc', commentsCount: 'desc', createdAt: 'desc' },
+      take: limit,
+      cursor: cursor ? { id: cursor } : undefined,
+      skip: cursor ? 1 : 0,
+      include: {
+        postedBy: {
+          select: {
+            id: true,
+            username: true,
+            profilePic: true,
+          },
+        },
+      },
     });
-    res.status(200).json({ message: 'Hot posts found', posts });
+
+    const nextCursor = posts.length > 0 ? posts[posts.length - 1].id : null;
+    res.status(200).json({ posts, nextCursor });
   } catch (error) {
     res.status(500).json({ error: 'An unknown error occurred' });
     console.error('Error in getHotPosts: ', error);
@@ -40,7 +68,14 @@ export async function getHotPosts(_req: Request, res: Response) {
 
 export async function getPostById(req: Request, res: Response) {
   try {
-    const postId = Number.parseInt(req.params.postId);
+    const params = postParamsSchema.safeParse(req.params);
+    if (!params.success) {
+      res.status(400).json({ error: 'Invalid post data' });
+      return;
+    }
+
+    const postId = params.data.postId;
+
     const input = postQuerySchema.safeParse(req.query);
     if (!input.success) {
       res.status(400).json({ message: 'Invalid query params' });
@@ -86,39 +121,70 @@ export async function getPostById(req: Request, res: Response) {
       },
     });
 
-    // Construct the response data
-    const response = {
-      post: {
-        id: post.id,
-        text: post.text,
-        images: post.images,
-        likesCount: post.likesCount,
-        commentsCount: post.commentsCount,
-        repostsCount: post.repostsCount,
-        isDeleted: post.isDeleted,
-        createdAt: post.createdAt,
-        updatedAt: post.updatedAt,
-        postedBy: {
-          id: post.postedBy.id,
-          username: post.postedBy.username,
-          profilePic: post.postedBy.profilePic,
-        },
-      },
-      childPosts,
-      nextCursor:
-        childPosts.length > 0 ? childPosts[childPosts.length - 1].id : null,
-    };
-
-    res.status(200).json({ post: response });
+    const nextCursor =
+      childPosts.length > 0 ? childPosts[childPosts.length - 1].id : null;
+    res.status(200).json({ post, childPosts, nextCursor });
   } catch (error) {
     res.status(500).json({ message: 'An unknown error occurred' });
     console.error('Error in getPostById: ', error);
   }
 }
 
+export async function getChildPosts(req: Request, res: Response) {
+  try {
+    const params = postParamsSchema.safeParse(req.params);
+    if (!params.success) {
+      res.status(400).json({ error: 'Invalid post data' });
+      return;
+    }
+
+    const postId = params.data.postId;
+
+    const input = postQuerySchema.safeParse(req.query);
+    if (!input.success) {
+      res.status(400).json({ message: 'Invalid query params' });
+      return;
+    }
+
+    const { cursor, limit } = input.data;
+
+    const childPosts = await prisma.post.findMany({
+      where: { parentPostId: postId },
+      orderBy: { createdAt: 'desc' },
+      take: limit,
+      cursor: cursor ? { id: cursor } : undefined,
+      skip: cursor ? 1 : 0,
+      include: {
+        postedBy: {
+          select: {
+            id: true,
+            username: true,
+            profilePic: true,
+          },
+        },
+      },
+    });
+
+    const nextCursor =
+      childPosts.length > 0 ? childPosts[childPosts.length - 1].id : null;
+    res.status(200).json({ childPosts, nextCursor });
+  } catch (error) {
+    res.status(500).json({ message: 'An unknown error occurred' });
+    console.error('Error in getChildPosts: ', error);
+  }
+}
+
 export async function createPost(req: Request, res: Response) {
   try {
-    // Validate request body
+    const params = createPostPramsSchema.safeParse(req.params);
+    if (!params.success) {
+      res.status(400).json({ error: 'Invalid post data' });
+      return;
+    }
+
+    const parentPostId = params.data.parentPostId;
+
+    // Validate input
     const input = PostCreateSchema.safeParse(req.body);
     const currentUserId = req.user!.id;
     if (!input.success) {
@@ -126,16 +192,46 @@ export async function createPost(req: Request, res: Response) {
       return;
     }
 
-    const { text, img } = input.data;
+    const { text, images } = input.data;
+
+    // Check if the parent post exists
+    if (parentPostId) {
+      const parentPost = await prisma.post.findUnique({
+        where: { id: parentPostId },
+      });
+
+      if (!parentPost) {
+        res.status(404).json({ error: 'Parent post not found' });
+        return;
+      }
+
+      // Increment the comments count of the parent post
+      await prisma.post.update({
+        where: { id: parentPostId },
+        data: { commentsCount: { increment: 1 } },
+      });
+    }
 
     // Create post
-    const post = await PostModel.create({
-      postedBy: currentUserId,
-      text,
-      img,
+    const post = await prisma.post.create({
+      data: {
+        text,
+        images: images ?? undefined,
+        parentPostId: parentPostId,
+        postedById: currentUserId,
+      },
+      include: {
+        postedBy: {
+          select: {
+            id: true,
+            username: true,
+            profilePic: true,
+          },
+        },
+      },
     });
 
-    res.status(201).json({ message: 'Post created', post });
+    res.status(201).json({ post });
   } catch (error) {
     res.status(500).json({ error: 'An unknown error occurred' });
     console.error('Error in createPost: ', error);
@@ -144,25 +240,38 @@ export async function createPost(req: Request, res: Response) {
 
 export async function deletePost(req: Request, res: Response) {
   try {
-    const postId = toObjectId(req.params.postId);
-    const post = await PostModel.findById(postId);
+    const params = postParamsSchema.safeParse(req.params);
+    if (!params.success) {
+      res.status(400).json({ error: 'Invalid post data' });
+      return;
+    }
+
+    const postId = params.data.postId;
+
+    const post = await prisma.post.findUnique({
+      where: { id: postId },
+      select: { postedById: true },
+    });
     if (!post) {
       res.status(404).json({ error: 'Post not found' });
       return;
     }
 
     // Check if the user is authorized to delete the post
-    const currentUserId = req.user!._id;
-    if (!post.postedBy.equals(currentUserId)) {
+    const currentUserId = req.user!.id;
+    if (post.postedById !== currentUserId) {
       res
         .status(403)
         .json({ error: 'You are not authorized to delete this post' });
       return;
     }
 
-    await PostModel.deleteOne({ _id: postId });
+    await prisma.post.update({
+      where: { id: postId },
+      data: { isDeleted: true },
+    });
 
-    res.status(200).json({ message: 'Post deleted' });
+    res.status(204).send();
   } catch (error) {
     res.status(500).json({ error: 'An unknown error occurred' });
     console.error('Error in deletePost: ', error);
@@ -171,31 +280,202 @@ export async function deletePost(req: Request, res: Response) {
 
 export async function likeUnlikePost(req: Request, res: Response) {
   try {
-    const postId = toObjectId(req.params.postId);
-    const post = await PostModel.findById(postId);
+    const currentUserId = req.user!.id;
+    const params = postParamsSchema.safeParse(req.params);
+    if (!params.success) {
+      res.status(400).json({ error: 'Invalid post data' });
+      return;
+    }
+
+    const postId = params.data.postId;
+
+    const post = await prisma.post.findUnique({
+      where: { id: postId },
+      select: { likes: true },
+    });
+
     if (!post) {
       res.status(404).json({ error: 'Post not found' });
       return;
     }
 
-    const currentUserId = req.user!._id;
-    const isLiked = post.likes.includes(currentUserId);
+    const isLiked = await prisma.like.findUnique({
+      where: {
+        userId_postId: {
+          postId,
+          userId: currentUserId,
+        },
+      },
+    });
 
     if (isLiked) {
-      await PostModel.findByIdAndUpdate(postId, {
-        $pull: { likes: currentUserId },
+      await prisma.like.delete({
+        where: {
+          userId_postId: {
+            postId,
+            userId: currentUserId,
+          },
+        },
+      });
+
+      await prisma.post.update({
+        where: { id: postId },
+        data: { likesCount: { decrement: 1 } },
       });
     } else {
-      await PostModel.findByIdAndUpdate(postId, {
-        $addToSet: { likes: currentUserId },
+      await prisma.like.create({
+        data: {
+          userId: currentUserId,
+          postId,
+        },
+      });
+
+      await prisma.post.update({
+        where: { id: postId },
+        data: { likesCount: { increment: 1 } },
       });
     }
 
-    res
-      .status(200)
-      .json({ message: isLiked ? 'Post unliked.' : 'Post liked.' });
+    res.status(204).send();
   } catch (error) {
     res.status(500).json({ error: 'An unknown error occurred' });
     console.error('Error in likeUnlikePost: ', error);
+  }
+}
+
+export async function saveOrUnsavePost(req: Request, res: Response) {
+  try {
+    const params = postParamsSchema.safeParse(req.params);
+    if (!params.success) {
+      res.status(400).json({ error: 'Invalid post data' });
+      return;
+    }
+
+    const postId = params.data.postId;
+    const currentUserId = req.user!.id; // Current user ID
+
+    // Validate post existence
+    const post = await prisma.post.findUnique({
+      where: { id: postId },
+    });
+
+    if (!post) {
+      res.status(404).json({
+        message: 'Post not found.',
+      });
+      return;
+    }
+
+    // Check if the post is already saved by the user
+    const isSaved = await prisma.save.findUnique({
+      where: {
+        userId_postId: {
+          postId,
+          userId: currentUserId,
+        },
+      },
+    });
+
+    if (isSaved) {
+      // Unsave the post
+      await prisma.save.delete({
+        where: {
+          userId_postId: {
+            postId,
+            userId: currentUserId,
+          },
+        },
+      });
+
+      res.status(204).send();
+    } else {
+      // Save the post
+      await prisma.save.create({
+        data: {
+          postId,
+          userId: currentUserId,
+        },
+      });
+
+      res.status(204).send();
+    }
+  } catch (error) {
+    res.status(500).json({ message: 'An unknown error occurred.' });
+    console.error('Error in saveOrUnsavePost: ', error);
+  }
+}
+
+export async function repostUnrepost(req: Request, res: Response) {
+  try {
+    const params = postParamsSchema.safeParse(req.params);
+    if (!params.success) {
+      res.status(400).json({ error: 'Invalid post data' });
+      return;
+    }
+
+    const postId = params.data.postId;
+    const currentUserId = req.user!.id;
+
+    // Validate post existence
+    const post = await prisma.post.findUnique({
+      where: { id: postId },
+    });
+
+    if (!post) {
+      res.status(404).json({
+        message: 'Post not found.',
+      });
+      return;
+    }
+
+    // Check if the post is already reposted by the user
+    const isReposted = await prisma.repost.findUnique({
+      where: {
+        userId_postId: {
+          postId,
+          userId: currentUserId,
+        },
+      },
+    });
+
+    if (isReposted) {
+      // Unrepost the post
+      await prisma.repost.delete({
+        where: {
+          userId_postId: {
+            postId,
+            userId: currentUserId,
+          },
+        },
+      });
+
+      // update the original post repost count
+      await prisma.post.update({
+        where: { id: post.id },
+        data: { repostsCount: { decrement: 1 } },
+      });
+
+      res.status(204).send();
+      return;
+    }
+
+    // Repost the post
+    await prisma.repost.create({
+      data: {
+        postId,
+        userId: currentUserId,
+      },
+    });
+
+    // Update the original post repost count
+    await prisma.post.update({
+      where: { id: post.id },
+      data: { repostsCount: { increment: 1 } },
+    });
+
+    res.status(204).send();
+  } catch (error) {
+    res.status(500).json({ message: 'An unknown error occurred.' });
+    console.error('Error in repostPost: ', error);
   }
 }
