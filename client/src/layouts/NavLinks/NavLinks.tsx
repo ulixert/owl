@@ -9,7 +9,7 @@ export function NavLinks() {
   return icons.map((link, index) => (
     <NavLink
       {...link}
-      key={link.label}
+      key={link.path}
       active={index === active}
       onClick={() => setActive(index)}
     />

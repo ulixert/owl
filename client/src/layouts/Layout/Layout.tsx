@@ -22,6 +22,7 @@ export function Layout({ children }: LayoutProps) {
       transitionTimingFunction="ease"
     >
       {!isAuthenticated && <LoginButton />}
+
       <AppShell.Navbar
         p="md"
         visibleFrom="sm"
@@ -30,12 +31,15 @@ export function Layout({ children }: LayoutProps) {
       >
         <NavBar />
       </AppShell.Navbar>
+
       <AppShell.Header withBorder={false} className={classes.header}>
         <Header />
       </AppShell.Header>
+
       <Container size={640} className={classes.container}>
         <AppShell.Main className={classes.main}>{children}</AppShell.Main>
       </Container>
+
       <AppShell.Footer hiddenFrom="sm" withBorder={false}>
         <Footer />
       </AppShell.Footer>

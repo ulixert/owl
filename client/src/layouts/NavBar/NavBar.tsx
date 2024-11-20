@@ -9,8 +9,8 @@ import {
 import { useAuthStore } from '@stores/authStore.ts';
 import { IconLogout, IconSun } from '@tabler/icons-react';
 
-import { NavLink } from '../NavLinks/NavLink.tsx';
 import { NavLinks } from '../NavLinks/NavLinks.tsx';
+import { NavBarButton } from './NavBarButton.tsx';
 
 export function NavBar() {
   const { setColorScheme } = useMantineColorScheme();
@@ -34,13 +34,9 @@ export function NavBar() {
       </Stack>
 
       <Stack justify="center" align="center" gap={0} mt={40}>
-        <NavLink
-          icon={IconSun}
-          label="theme"
-          onClick={handleColorSchemeChange}
-        />
+        <NavBarButton icon={IconSun} onClick={handleColorSchemeChange} />
         {isAuthenticated && (
-          <NavLink icon={IconLogout} label="Logout" onClick={mutation.mutate} />
+          <NavBarButton icon={IconLogout} onClick={mutation.mutate} />
         )}
       </Stack>
     </>

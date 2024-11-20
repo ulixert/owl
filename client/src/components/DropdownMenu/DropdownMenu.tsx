@@ -18,6 +18,9 @@ export function DropdownMenu({
       shadow="md"
       width={200}
       transitionProps={{ transition: 'fade-down', duration: 200 }}
+      openDelay={100}
+      closeDelay={300}
+      trigger="click-hover"
     >
       <Menu.Target>{target}</Menu.Target>
 

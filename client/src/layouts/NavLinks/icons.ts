@@ -7,9 +7,9 @@ import {
 } from '@tabler/icons-react';
 
 export const icons = [
-  { icon: IconHome, label: 'Home' },
-  { icon: IconSearch, label: 'Search' },
-  { icon: IconPlus, label: 'Add New Post' },
-  { icon: IconHeart, label: 'Liked Posts' },
-  { icon: IconUser, label: 'Profile' },
+  { icon: IconHome, path: '/', needLogin: false },
+  { icon: IconSearch, path: '/search', needLogin: false },
+  { icon: IconPlus, path: '/create', needLogin: true },
+  { icon: IconHeart, path: '/liked', needLogin: true },
+  { icon: IconUser, path: '/profile', needLogin: true },
 ];
