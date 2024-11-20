@@ -1,6 +1,8 @@
-.return {
-  position: absolute;
-  left: 1em;
+.container {
+  position: relative;
+}
+
+.dropdownIcon {
   background-color: var(--bg-color);
   color: var(--text-color);
   box-shadow: var(--mantine-shadow-lg);
@@ -9,4 +11,11 @@
   &:hover {
     transform: scale(1.1);
   }
+}
+
+.burger {
+  position: absolute;
+  right: 0;
+  display: flex;
+  align-content: center;
 }

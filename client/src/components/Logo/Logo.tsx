@@ -1,4 +1,4 @@
-8import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import {
   Flex,
@@ -8,13 +8,17 @@ import {
   useComputedColorScheme,
 } from '@mantine/core';
 
-export function Logo() {
+type LogoProps = {
+  size?: number;
+};
+
+export function Logo({ size = 30 }: LogoProps) {
   const computedColorScheme = useComputedColorScheme('light');
   const navigate = useNavigate();
 
   return (
     <Flex justify="center">
-      <UnstyledButton w={rem(30)} onClick={() => navigate('/')}>
+      <UnstyledButton w={rem(size)} onClick={() => navigate('/')}>
         <Image
           src={
             computedColorScheme === 'light'

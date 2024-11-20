@@ -6,6 +6,7 @@ import {
   useComputedColorScheme,
   useMantineColorScheme,
 } from '@mantine/core';
+import { useAuthStore } from '@stores/authStore.ts';
 import { IconLogout, IconSun } from '@tabler/icons-react';
 
 import { NavLink } from '../NavLinks/NavLink.tsx';
@@ -15,6 +16,8 @@ export function NavBar() {
   const { setColorScheme } = useMantineColorScheme();
   const computedColorScheme = useComputedColorScheme('light');
   const mutation = useLogoutMutation();
+
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
 
   function handleColorSchemeChange() {
     setColorScheme(computedColorScheme === 'light' ? 'dark' : 'light');
@@ -36,7 +39,9 @@ export function NavBar() {
           label="theme"
           onClick={handleColorSchemeChange}
         />
-        <NavLink icon={IconLogout} label="Logout" onClick={mutation.mutate} />
+        {isAuthenticated && (
+          <NavLink icon={IconLogout} label="Logout" onClick={mutation.mutate} />
+        )}
       </Stack>
     </>
   );

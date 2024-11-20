@@ -1,4 +1,6 @@
+import { LoginButton } from '@/components/LoginButton/LoginButton.tsx';
 import { AppShell, Container } from '@mantine/core';
+import { useAuthStore } from '@stores/authStore.ts';
 
 import { Footer } from '../Footer/Footer.tsx';
 import { Header } from '../Header/Header.tsx';
@@ -10,6 +12,8 @@ type LayoutProps = {
 };
 
 export function Layout({ children }: LayoutProps) {
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+
   return (
     <AppShell
       layout="alt"
@@ -17,12 +21,7 @@ export function Layout({ children }: LayoutProps) {
       transitionDuration={500}
       transitionTimingFunction="ease"
     >
-      <AppShell.Header withBorder={false}>
-        {/*<Group h="100%" px="md">*/}
-        {/*  <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />*/}
-        {/*</Group>*/}
-        <Header />
-      </AppShell.Header>
+      {!isAuthenticated && <LoginButton />}
       <AppShell.Navbar
         p="md"
         visibleFrom="sm"
@@ -31,12 +30,15 @@ export function Layout({ children }: LayoutProps) {
       >
         <NavBar />
       </AppShell.Navbar>
+      <AppShell.Header withBorder={false} className={classes.header}>
+        <Header />
+      </AppShell.Header>
       <Container size={640} className={classes.container}>
         <AppShell.Main className={classes.main}>{children}</AppShell.Main>
-        <AppShell.Footer hiddenFrom="sm" withBorder={false}>
-          <Footer />
-        </AppShell.Footer>
       </Container>
+      <AppShell.Footer hiddenFrom="sm" withBorder={false}>
+        <Footer />
+      </AppShell.Footer>
     </AppShell>
   );
 }

@@ -5,7 +5,6 @@ ENV NODE_OPTIONS="--max_old_space_size=4096"
 RUN corepack enable
 
 WORKDIR /app
-COPY ./server/.prod.env ./server/.prod.env
 COPY . .
 
 # Build Stage
@@ -14,7 +13,8 @@ RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 
 # Prisma
 WORKDIR /app/server
-RUN pnpm prisma generate --sql
+RUN pnpm prisma migrate deploy
+
 
 WORKDIR /app
 RUN pnpm run build
@@ -27,10 +27,11 @@ COPY --from=build /app/client/dist /usr/share/nginx/html
 # Server Stage
 FROM node:20-alpine AS server
 COPY --from=build /prod/server /prod/server
-COPY --from=build /app/server/dist /prod/server/dist
-COPY --from=build /app/server/.prod.env /prod/server/.prod.env
+
+
 
 WORKDIR /prod/server
+
 ENV NODE_ENV=production
 EXPOSE 3000
 CMD ["pnpm", "start"]

@@ -17,11 +17,7 @@ export function NavLink({ icon: Icon, active, onClick }: NavLinkProps) {
       className={classes.link}
       data-active={active ? 'true' : undefined}
     >
-      <Icon
-        style={{ width: rem(30), height: rem(30) }}
-        stroke={1.5}
-        fill={active ? 'currentColor' : 'none'}
-      />
+      <Icon style={{ width: rem(30), height: rem(30) }} stroke={1.5} />
     </UnstyledButton>
   );
 }

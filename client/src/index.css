@@ -1,4 +1,33 @@
+:root {
+  --bg-color-light: #fafafa;
+  --bg-color-dark: #0a0a0a;
+  --text-color-light: var(--mantine-color-gray-9);
+  --text-color-dark: var(--mantine-color-gray-0);
+  --alt-bg-color-light: #fff;
+  --alt-bg-color-dark: #181818;
+  --border-color-light: var(--mantine-color-gray-3);
+  --border-color-dark: var(--mantine-color-dark-4);
+}
+
+[data-mantine-color-scheme='light'] {
+  --bg-color: var(--bg-color-light);
+  --text-color: var(--text-color-light);
+  --alt-bg-color: var(--alt-bg-color-light);
+  --border-color: var(--border-color-light);
+}
+
+[data-mantine-color-scheme='dark'] {
+  --bg-color: var(--bg-color-dark);
+  --text-color: var(--text-color-dark);
+  --alt-bg-color: var(--alt-bg-color-dark);
+  --border-color: var(--border-color-dark);
+}
+
 body {
-  background-color: light-dark(#fafafa, #0a0a0a);
-  color: light-dark(var(--mantine-color-gray-9), var(--mantine-color-gray-0));
+  background-color: var(--bg-color);
+  color: var(--text-color);
+
+  @media (max-width: 48em) {
+    background-color: var(--alt-bg-color);
+  }
 }

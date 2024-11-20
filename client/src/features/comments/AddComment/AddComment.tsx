@@ -5,7 +5,8 @@ import styles from './AddComment.module.css';
 export function AddComment() {
   return (
     <>
-      <Divider my={16} />
+      <Divider my={16} mx={-16} />
+
       <Flex gap={12}>
         <Avatar src="/avatar.webp" size="md" />
         <Textarea
@@ -17,7 +18,6 @@ export function AddComment() {
           Reply
         </Button>
       </Flex>
-      <Divider my={16} />
     </>
   );
 }
