@@ -1,8 +1,6 @@
 import { Response } from 'express';
 import jwt from 'jsonwebtoken';
 
-import { API_PREFIX } from '../app.js';
-
 const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET!;
 const REFRESH_TOKEN_SECRET = process.env.REFRESH_TOKEN_SECRET!;
 
@@ -18,7 +16,6 @@ export function generateRefreshTokenAndSetCookie(
     httpOnly: true,
     maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
     sameSite: 'strict',
-    path: `${API_PREFIX}/auth/refresh-token`,
   });
 
   return token;
