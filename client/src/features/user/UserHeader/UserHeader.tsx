@@ -11,7 +11,7 @@ import {
 import { IconBrandInstagram } from '@tabler/icons-react';
 
 import { UserMoreMenu } from '../UserMoreMenu/UserMoreMenu.tsx';
-import styles from './UserHeader.module.css';
+import classes from './UserHeader.module.css';
 
 export function UserHeader() {
   return (
@@ -23,7 +23,7 @@ export function UserHeader() {
             <Text size="sm" c="gray.6">
               @Thomas
             </Text>
-            <Button size="xs" className={styles.net} radius="lg" component="a">
+            <Button size="xs" className={classes.net} radius="lg" component="a">
               Owl.net
             </Button>
           </Flex>
@@ -37,7 +37,7 @@ export function UserHeader() {
       <Text>Father, citizen and a dog keeper</Text>
 
       <Flex w="100%" justify="space-between">
-        <Flex gap={8} align={'center'} c="gray.6" className={styles.follow}>
+        <Flex gap={8} align={'center'} c="gray.6" className={classes.follow}>
           <Anchor c="inherit">
             <span>3.2k</span> follows
           </Anchor>
@@ -47,7 +47,7 @@ export function UserHeader() {
           </Anchor>
         </Flex>
         <Flex>
-          <Box className={styles.iconContainer}>
+          <Box className={classes.iconContainer}>
             <IconBrandInstagram size={24} cursor="pointer" />
           </Box>
           <UserMoreMenu />
@@ -56,10 +56,10 @@ export function UserHeader() {
 
       <Tabs defaultValue="post" w="100%">
         <Tabs.List>
-          <Tabs.Tab value="post" fw={600} className={styles.tab} py={12}>
+          <Tabs.Tab value="post" fw={600} className={classes.tab} py={12}>
             Posts
           </Tabs.Tab>
-          <Tabs.Tab value="replies" className={styles.tab} fw={500} c="gray.6">
+          <Tabs.Tab value="replies" className={classes.tab} fw={500} c="gray.6">
             Replies
           </Tabs.Tab>
         </Tabs.List>

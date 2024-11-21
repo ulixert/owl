@@ -2,17 +2,19 @@ import { DropdownMenu } from '@/components/DropdownMenu/DropdownMenu.tsx';
 import { ReturnButton } from '@/components/ReturnButton/ReturnButton.tsx';
 import { ActionIcon, Flex, UnstyledButton } from '@mantine/core';
 import { useAuthStore } from '@stores/authStore.ts';
+import { useTitleStore } from '@stores/titleStore.ts';
 import { IconArrowDown } from '@tabler/icons-react';
 
 import classes from './Header.module.css';
 
 export function HeaderDesktop() {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+  const title = useTitleStore((state) => state.title);
 
   return (
     <Flex justify="center" align="center" p="md" gap={10}>
       <ReturnButton />
-      <UnstyledButton>Home</UnstyledButton>
+      <UnstyledButton>{title}</UnstyledButton>
 
       {isAuthenticated && (
         <DropdownMenu
@@ -27,12 +29,19 @@ export function HeaderDesktop() {
             </ActionIcon>
           }
           itemsBeforeDivider={[
-            { name: 'For you' },
-            { name: 'Following' },
-            { name: 'Liked' },
-            { name: 'Saved' },
+            { name: 'For you', path: '/for-you' },
+            { name: 'Following', path: '/following' },
+            { name: 'Liked', path: '/liked' },
+            { name: 'Saved', path: '/saved' },
           ]}
-          itemsAfterDivider={[{ name: 'Create new post' }]}
+          itemsAfterDivider={[
+            {
+              name: 'Create new post',
+              onClick: () => {
+                /* TODO */
+              },
+            },
+          ]}
         />
       )}
     </Flex>
