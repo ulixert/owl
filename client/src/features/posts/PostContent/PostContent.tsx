@@ -2,14 +2,14 @@ import { Image, Text } from '@mantine/core';
 
 type PostContentProps = {
   postText?: string;
-  postImg?: string;
+  postImages?: string;
 };
 
-export function PostContent({ postText, postImg }: PostContentProps) {
+export function PostContent({ postText, postImages }: PostContentProps) {
   return (
     <>
       {postText && <Text size="sm">{postText}</Text>}
-      {postImg && <Image src={postImg} w="100%" radius="md" />}
+      {postImages && <Image src={postImages} w="100%" radius="lg" />}
     </>
   );
 }

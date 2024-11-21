@@ -1,53 +1,16 @@
-import { useState } from 'react';
+import { useEffect } from 'react';
 
-import { AddComment } from '@/features/comments/AddComment/AddComment.tsx';
-import { CommentItem } from '@/features/comments/Comment/CommentItem.tsx';
-import { PostActions } from '@/features/posts/PostActions/PostActions.tsx';
-import { PostContent } from '@/features/posts/PostContent/PostContent.tsx';
-import { PostHeader } from '@/features/posts/PostHeader/PostHeader.tsx';
-import { PostMain } from '@/features/posts/PostMain/PostMain.tsx';
-import { PostStats } from '@/features/posts/PostStats/PostStats.tsx';
-import { Avatar, Flex } from '@mantine/core';
+import { PostWithComments } from '@/features/comments/PostWithComments/PostWithComments.tsx';
+import { useTitleStore } from '@stores/titleStore.ts';
 
 function PostPage() {
-  const [liked, setLiked] = useState(false);
+  const setTitle = useTitleStore((state) => state.setTitle);
 
-  return (
-    <>
-      <PostMain>
-        <Flex gap={12}>
-          <Avatar src="/avatar.webp" alt="thomas" size="md" />
-          <PostHeader userName="Thomas" createdAt="1d" />
-        </Flex>
-        <PostContent postText="this is my first post" />
-        <PostActions />
-        <PostStats replies={423} likes={342 + (liked ? 1 : 0)} />
-      </PostMain>
+  useEffect(() => {
+    setTitle('Post');
+  }, [setTitle]);
 
-      <AddComment />
-
-      <CommentItem
-        likes={22}
-        comment="I love your post"
-        createdAt="1m"
-        userName="Tom"
-        userAvatar="https://i.pravatar.cc/100?u=tom"
-      />
-      <CommentItem
-        likes={432}
-        comment="Thank you for your information"
-        createdAt="1d"
-        userName="Emily"
-      />
-      <CommentItem
-        likes={342}
-        comment="You are the god"
-        createdAt="3d"
-        userName="Joe"
-        userAvatar="https://i.pravatar.cc/100?u=jonas"
-      />
-    </>
-  );
+  return <PostWithComments />;
 }
 
 export default PostPage;

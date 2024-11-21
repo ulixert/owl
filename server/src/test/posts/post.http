@@ -38,7 +38,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhd
 
 ### Get all comments of a post
 GET {{api}}/posts/1/comments
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTczMTk4NTA1NiwiZXhwIjoxNzMxOTg1OTU2fQ.00kWUov4JxhBedFJ-fe9nzCBFqV3tKHZFTzKXMzRFII
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTczMjE3NTUyNywiZXhwIjoxNzMyMTc2NDI3fQ.H5FU84lun-8zbOT_gASNrOA4iZ-2OTesJttpMMYXWk8
 
 ### Comment on a post
 POST {{api}}/posts/67358c28f257b691e797857e/comments

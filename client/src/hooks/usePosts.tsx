@@ -5,7 +5,7 @@ import { axiosInstance } from '@/api/axiosConfig.ts';
 import { useAuthStore } from '@stores/authStore.ts';
 import { useInfiniteQuery } from '@tanstack/react-query';
 
-type Post = PostType & {
+export type Post = PostType & {
   postedBy: {
     id: number;
     username: string;
