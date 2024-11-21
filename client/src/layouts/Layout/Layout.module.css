@@ -1,0 +1,32 @@
+.navbar {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
+
+.header {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
+
+.main {
+  border-radius: var(--mantine-radius-lg) var(--mantine-radius-lg) 0 0;
+  background-color: var(--alt-bg-color);
+  color: var(--text-color);
+  box-shadow: var(--mantine-shadow-lg);
+  border: 1px solid var(--border-color);
+  margin-top: 60px;
+
+  @media (max-width: 48em) {
+    border-radius: 0;
+    margin-top: 50px;
+  }
+}
+
+.container {
+  padding: 0;
+
+  @media (max-width: 48em) {
+    max-width: none;
+    border-radius: 0;
+  }
+}

@@ -48,7 +48,7 @@ export function PostList() {
             likes={post.likesCount}
             replies={post.commentsCount}
             postText={post.text ?? 'empty'}
-            postImg={post?.images?.[0] ?? ''}
+            postImg={post?.images?.[0]}
             key={post.id}
           />
         ))

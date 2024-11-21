@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
-import { Header } from '@/components/Header/Header.tsx';
 import { Loading } from '@/components/Loading/Loading.tsx';
 import { ForgotPassword } from '@/features/auth/components/ForgotPassword/ForgotPassword.tsx';
 import { Login } from '@/features/auth/components/Login/Login.tsx';
@@ -11,7 +10,7 @@ import AuthPage from '@/pages/AuthPage.tsx';
 import HomePage from '@/pages/HomePage.tsx';
 import PostPage from '@/pages/PostPage.tsx';
 import UserPage from '@/pages/UserPage.tsx';
-import { Container } from '@mantine/core';
+import { Layout } from '@layouts/Layout/Layout.tsx';
 import { useAuthStore } from '@stores/authStore.ts';
 
 function App() {
@@ -32,8 +31,7 @@ function App() {
     <BrowserRouter
       future={{ v7_relativeSplatPath: true, v7_startTransition: true }}
     >
-      <Container size={620}>
-        <Header />
+      <Layout>
         <Routes>
           {/* Home Page Route */}
           <Route path="/" element={<HomePage />} />
@@ -52,7 +50,7 @@ function App() {
           {/* 404 Route */}
           <Route path="*" element={<div>404 Not Found</div>} />
         </Routes>
-      </Container>
+      </Layout>
     </BrowserRouter>
   );
 }

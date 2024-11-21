@@ -1,7 +1,5 @@
 import { useState } from 'react';
 
-import { Header } from '@/components/Header/Header.tsx';
-import { ReturnButton } from '@/components/ReturnButton/ReturnButton.tsx';
 import { AddComment } from '@/features/comments/AddComment/AddComment.tsx';
 import { CommentItem } from '@/features/comments/Comment/CommentItem.tsx';
 import { PostActions } from '@/features/posts/PostActions/PostActions.tsx';
@@ -16,10 +14,6 @@ function PostPage() {
 
   return (
     <>
-      <Header>
-        <ReturnButton />
-      </Header>
-
       <PostMain>
         <Flex gap={12}>
           <Avatar src="/avatar.webp" alt="thomas" size="md" />

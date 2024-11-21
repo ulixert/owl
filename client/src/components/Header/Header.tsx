@@ -21,7 +21,7 @@ export function Header({ children }: React.PropsWithChildren) {
     >
       {children}
       <Logo />
-      <Button onClick={handleLogout} />
+      <Button onClick={handleLogout}>Log out</Button>
     </Flex>
   );
 }

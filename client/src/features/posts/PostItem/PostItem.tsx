@@ -22,7 +22,7 @@ export function PostItem({ likes, replies, postImg, postText }: PostProps) {
   const [liked, setLiked] = useState(false);
 
   return (
-    <Link to="/thomas/post/1" className={styles.post}>
+    <Link to="/post/1" className={styles.post}>
       <Flex gap={12} mb={16} py={20}>
         <PostLeftBar />
         <PostMain>
