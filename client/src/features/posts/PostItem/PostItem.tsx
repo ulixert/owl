@@ -1,37 +1,61 @@
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import { Flex } from '@mantine/core';
+import { getPostTime } from '@/utils/getPostTime.ts';
+import { Divider, Flex } from '@mantine/core';
 
 import { PostActions } from '../PostActions/PostActions.tsx';
 import { PostContent } from '../PostContent/PostContent.tsx';
 import { PostHeader } from '../PostHeader/PostHeader.tsx';
 import { PostLeftBar } from '../PostLeftBar/PostLeftBar.tsx';
 import { PostMain } from '../PostMain/PostMain.tsx';
-import { PostStats } from '../PostStats/PostStats.tsx';
-import styles from './PostItem.module.css';
+import classes from './PostItem.module.css';
 
 type PostProps = {
-  likes: number;
-  replies: number;
+  postId: number;
   postText: string;
   postImg?: string;
+  postTime: Date;
+  postAuthor: string;
+  postAuthorId: number;
+  postAuthorAvatar: string | null;
+  likesCount: number;
+  commentsCount: number;
+  repostsCount: number;
 };
 
-export function PostItem({ likes, replies, postImg, postText }: PostProps) {
-  const [liked, setLiked] = useState(false);
-
+export function PostItem({
+  postImg,
+  postText,
+  postId,
+  postTime,
+  postAuthor,
+  postAuthorAvatar,
+  likesCount,
+  commentsCount,
+  repostsCount,
+}: PostProps) {
   return (
-    <Link to="/post/1" className={styles.post}>
-      <Flex gap={12} mb={16} py={20}>
-        <PostLeftBar />
-        <PostMain>
-          <PostHeader createdAt="1d" userName="Thomas" />
-          <PostContent postText={postText} postImg={postImg} />
-          <PostActions liked={liked} setLiked={setLiked} />
-          <PostStats replies={replies} likes={likes} />
-        </PostMain>
-      </Flex>
-    </Link>
+    <>
+      <Link to={`/posts/${postId}`} className={classes.post}>
+        <Flex gap={12}>
+          <PostLeftBar username={postAuthor} avatar={postAuthorAvatar} />
+
+          <PostMain>
+            <PostHeader
+              createdAt={getPostTime(new Date(postTime))}
+              userName="Thomas"
+            />
+            <PostContent postText={postText} postImg={postImg} />
+            <PostActions
+              likesCount={likesCount}
+              commentsCount={commentsCount}
+              repostsCount={repostsCount}
+            />
+          </PostMain>
+        </Flex>
+      </Link>
+
+      <Divider className={classes.divider} />
+    </>
   );
 }

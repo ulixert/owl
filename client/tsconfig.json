@@ -33,7 +33,8 @@
       "@/theme/*": ["theme/*"],
       "@/api/*": ["api/*"],
       "@stores/*": ["stores/*"],
-      "@layouts/*": ["layouts/*"]
+      "@layouts/*": ["layouts/*"],
+      "@routes/*": ["routes/*"]
     }
   },
   "include": ["src"],

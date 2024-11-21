@@ -20,7 +20,7 @@ function PostPage() {
           <PostHeader userName="Thomas" createdAt="1d" />
         </Flex>
         <PostContent postText="this is my first post" />
-        <PostActions liked={liked} setLiked={setLiked} />
+        <PostActions />
         <PostStats replies={423} likes={342 + (liked ? 1 : 0)} />
       </PostMain>
 

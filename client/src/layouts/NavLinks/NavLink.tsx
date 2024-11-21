@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { UnstyledButton, rem } from '@mantine/core';
 import { useAuthStore } from '@stores/authStore.ts';
+import { useTitleStore } from '@stores/titleStore.ts';
 import { IconHome } from '@tabler/icons-react';
 
 import classes from './NavLinks.module.css';
@@ -23,13 +24,18 @@ export function NavLink({
 }: NavLinkProps) {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
   const navigate = useNavigate();
+  const setTitle = useTitleStore((state) => state.setTitle);
 
   function handleClick() {
     onClick();
+
     if (needLogin && !isAuthenticated) {
-      navigate('/login');
+      navigate('/login', { replace: true });
     } else {
       navigate(path);
+      if (path !== '/') {
+        setTitle(path[1].toUpperCase() + path.slice(2));
+      }
     }
   }
 

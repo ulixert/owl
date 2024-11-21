@@ -1,3 +1,5 @@
+import { useLocation } from 'react-router-dom';
+
 import { LoginButton } from '@/components/LoginButton/LoginButton.tsx';
 import { AppShell, Container } from '@mantine/core';
 import { useAuthStore } from '@stores/authStore.ts';
@@ -13,6 +15,7 @@ type LayoutProps = {
 
 export function Layout({ children }: LayoutProps) {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+  const location = useLocation();
 
   return (
     <AppShell
@@ -21,7 +24,7 @@ export function Layout({ children }: LayoutProps) {
       transitionDuration={500}
       transitionTimingFunction="ease"
     >
-      {!isAuthenticated && <LoginButton />}
+      {!isAuthenticated && location.pathname !== '/login' && <LoginButton />}
 
       <AppShell.Navbar
         p="md"

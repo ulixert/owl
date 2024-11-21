@@ -1,35 +1,22 @@
-import { PostType } from 'validation';
+import { useEffect } from 'react';
+import { useInView } from 'react-intersection-observer';
 
-import { axiosInstance } from '@/api/axiosConfig.ts';
 import { Loading } from '@/components/Loading/Loading.tsx';
-import { Button, Stack, Text, Title } from '@mantine/core';
-import { useAuthStore } from '@stores/authStore.ts';
-import { useQuery } from '@tanstack/react-query';
+import { usePosts } from '@/hooks/usePosts.tsx';
+import { Center, Loader, Stack } from '@mantine/core';
 
 import { PostItem } from '../PostItem/PostItem.tsx';
 
 export function PostList() {
-  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+  const { data, isPending, isError, hasNextPage, fetchNextPage, isFetching } =
+    usePosts();
+  const { ref, inView } = useInView();
 
-  async function fetchPosts() {
-    const endpoint = isAuthenticated ? '/posts/feed' : '/posts/hot';
-
-    const response = await axiosInstance.get<{
-      message: string;
-      posts: PostType[];
-    }>(endpoint);
-
-    return response.data.posts;
-  }
-
-  const {
-    data: posts,
-    isPending,
-    isError,
-  } = useQuery({
-    queryKey: ['posts', isAuthenticated],
-    queryFn: fetchPosts,
-  });
+  useEffect(() => {
+    if (inView && hasNextPage) {
+      void fetchNextPage();
+    }
+  }, [inView, hasNextPage, fetchNextPage]);
 
   if (isPending) {
     return <Loading />;
@@ -41,21 +28,31 @@ export function PostList() {
 
   return (
     <Stack>
-      <Title>{isAuthenticated ? 'Feed' : 'Hot'}</Title>
-      {posts.length > 0 ? (
-        posts.map((post) => (
+      {data?.pages.map((page) =>
+        page.posts.map((post) => (
           <PostItem
-            likes={post.likesCount}
-            replies={post.commentsCount}
-            postText={post.text ?? 'empty'}
-            postImg={post?.images?.[0]}
+            postId={post.id}
             key={post.id}
+            postText={post.text ?? ''}
+            postImg={post?.images?.[0]}
+            postTime={post.createdAt}
+            postAuthor={post.postedBy.username}
+            postAuthorId={post.postedBy.id}
+            postAuthorAvatar={post.postedBy.profilePic}
+            likesCount={post.likesCount}
+            commentsCount={post.commentsCount}
+            repostsCount={post.repostsCount}
           />
-        ))
-      ) : (
-        <div>
-          <Text>No posts</Text>
-          <Button onClick={fetchPosts}>Reload</Button>
+        )),
+      )}
+
+      {hasNextPage && (
+        <div ref={ref}>
+          {isFetching && (
+            <Center>
+              <Loader type="bars" />
+            </Center>
+          )}
         </div>
       )}
     </Stack>

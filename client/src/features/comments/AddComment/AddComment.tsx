@@ -1,6 +1,6 @@
 import { Avatar, Button, Divider, Flex, Textarea } from '@mantine/core';
 
-import styles from './AddComment.module.css';
+import classes from './AddComment.module.css';
 
 export function AddComment() {
   return (
@@ -12,9 +12,9 @@ export function AddComment() {
         <Textarea
           autosize
           placeholder="Post your reply"
-          className={styles.content}
+          className={classes.content}
         />
-        <Button className={styles.reply} radius={100}>
+        <Button className={classes.reply} radius={100}>
           Reply
         </Button>
       </Flex>

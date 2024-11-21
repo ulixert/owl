@@ -8,7 +8,7 @@ export function LoginButton() {
   const navigate = useNavigate();
 
   return (
-    <Button className={classes.login} onClick={() => navigate('login')}>
+    <Button className={classes.login} onClick={() => navigate('/login')}>
       Log in
     </Button>
   );

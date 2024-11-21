@@ -6,7 +6,6 @@ import {
   repostUnrepost,
   saveOrUnsavePost,
 } from './actionController.js';
-import { getFeedPosts } from './feedController.js';
 import {
   createPost,
   deletePost,
@@ -14,11 +13,20 @@ import {
   getHotPosts,
   getPostById,
 } from './postController.js';
+import {
+  getFollowingPosts,
+  getLikedPosts,
+  getRecommendedPosts,
+  getSavedPosts,
+} from './userPostController.js';
 
 export const postRouter: Router = express.Router();
 
-postRouter.get('/feed', protectRoute, getFeedPosts);
 postRouter.get('/hot', getHotPosts);
+postRouter.get('/following', protectRoute, getFollowingPosts);
+postRouter.get('/liked', protectRoute, getLikedPosts);
+postRouter.get('/saved', protectRoute, getSavedPosts);
+postRouter.get('/for-you', protectRoute, getRecommendedPosts);
 
 postRouter.get('/:postId', getPostById);
 postRouter.get('/:postId/comments', getChildPosts);
