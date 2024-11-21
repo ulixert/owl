@@ -7,7 +7,7 @@ export async function refreshAccessToken() {
       '/auth/refresh-token',
     );
     const accessToken = response.data.accessToken;
-    useAuthStore.getState().setAccessToken(accessToken);
+    useAuthStore.getState().setAccessToken(accessToken, response.data.userId);
     return response.data.accessToken;
   } catch {
     useAuthStore.getState().setAccessToken(null);

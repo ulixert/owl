@@ -34,7 +34,7 @@ export function PostList() {
             postId={post.id}
             key={post.id}
             postText={post.text ?? ''}
-            postImg={post?.images?.[0]}
+            postImages={post?.images?.[0]}
             postTime={post.createdAt}
             postAuthor={post.postedBy.username}
             postAuthorId={post.postedBy.id}

@@ -15,7 +15,7 @@ export function useAccessToken() {
         '/auth/refresh-token',
       );
 
-      setAccessToken(response.data.accessToken);
+      setAccessToken(response.data.accessToken, response.data.userId);
       return response.data.accessToken;
     },
     retry: false,

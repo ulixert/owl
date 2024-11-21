@@ -8,14 +8,14 @@ function UserPage() {
       <PostItem
         likes={1200}
         replies={234}
-        postImg="/post1.webp"
+        postImages="/post1.webp"
         postText="I ate a sock because people on the Internet told me to."
       />
       <PostItem likes={1} replies={0} postText="hello there" />
       <PostItem
         likes={234}
         replies={21}
-        postImg="/post2.webp"
+        postImages="/post2.webp"
         postText="She insisted that cleaning out your closet was the key to good driving"
       />
       <PostItem
@@ -26,7 +26,7 @@ function UserPage() {
       <PostItem
         likes={43}
         replies={24}
-        postImg="/post3.webp"
+        postImages="/post3.webp"
         postText="The furnace repairman indicated the heating system was acting as an air conditioner."
       />
     </>
