@@ -1,6 +1,6 @@
 # OWL
 
-Welcome to the OWL project.## Owl
+Welcome to the OWL social media platform! 🦉
 
 Owl is a full-stack web application that includes user authentication, token management, and protected routes. The application is built using modern web technologies and follows best practices for security and performance.
 
@@ -8,7 +8,6 @@ Owl is a full-stack web application that includes user authentication, token man
 
 - [Features](#features)
 - [Technologies Used](#technologies-used)
-- [Project Structure](#project-structure)
 - [Setup and Installation](#setup-and-installation)
 - [Environment Variables](#environment-variables)
 - [Running the Application](#running-the-application)
