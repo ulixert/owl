@@ -148,3 +148,26 @@ export async function getUserProfile(req: Request, res: Response) {
     console.error('Error in getUserProfile: ', error);
   }
 }
+
+export async function getMyData(req: Request, res: Response) {
+  try {
+    const currentUserId = req.user!.id;
+    const user = await prisma.user.findUnique({
+      where: { id: currentUserId },
+      select: {
+        username: true,
+        profilePic: true,
+      },
+    });
+
+    if (!user) {
+      res.status(404).json({ message: 'User not found.' });
+      return;
+    }
+
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(500).json({ message: 'An unknown error occurred.' });
+    console.error('Error in getMyData: ', error);
+  }
+}

@@ -3,13 +3,15 @@ import axios, { AxiosError } from 'axios';
 import { refreshAccessToken } from '@/utils/refreshAccessToken.ts';
 import { useAuthStore } from '@stores/authStore.ts';
 
-export type ApiResponse = {
+export type ApiErrorResponse = {
   message: string;
 };
 
-export type AuthResponse = ApiResponse & {
+export type AuthResponse = {
   accessToken: string;
-  userId: number | null;
+  userId: number;
+  username: string;
+  profilePic: string | null;
 };
 
 // Create an Axios instance

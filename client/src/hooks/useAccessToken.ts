@@ -15,8 +15,15 @@ export function useAccessToken() {
         '/auth/refresh-token',
       );
 
-      setAccessToken(response.data.accessToken, response.data.userId);
-      return response.data.accessToken;
+      const { accessToken, userId, username, profilePic } = response.data;
+
+      setAccessToken(accessToken, {
+        userId,
+        username,
+        profilePic,
+      });
+
+      return response.data;
     },
     retry: false,
     refetchInterval: () => (isAuthenticated ? 13 * MINUTE : false),

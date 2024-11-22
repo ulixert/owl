@@ -4,6 +4,8 @@ import { JWTError } from '../../errors/errors.js';
 
 type JwtPayload = {
   userId: number;
+  username: string;
+  profilePic: string | null;
   iat: number;
   exp: number;
 };

@@ -8,20 +8,29 @@ export function useOpenLoginModal() {
 
   return () =>
     modals.openConfirmModal({
-      title: 'Say more with Owls',
+      title: (
+        <Text fz={20} fw={600} c="yellow">
+          Say more with Owls
+        </Text>
+      ),
       withOverlay: true,
       overlayProps: {
         backgroundOpacity: 0.5,
         blur: 3,
       },
-      yOffset: '35vh',
-      translate: 'yes',
+      closeButtonProps: {
+        display: 'none',
+      },
+      centered: true,
       radius: 'lg',
       padding: 'lg',
       transitionProps: { transition: 'fade', duration: 200 },
       withCloseButton: true,
       children: (
-        <Text>Join Owls to connect with friends and share your stories.</Text>
+        <Text>
+          Join Owls to connect with friends and share your stories with the
+          world
+        </Text>
       ),
       labels: { confirm: 'Log in', cancel: 'Sign up' },
       onConfirm: () => navigate('/login'),
