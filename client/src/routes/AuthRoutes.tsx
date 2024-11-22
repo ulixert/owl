@@ -1,4 +1,4 @@
-export const AuthRoutes = () => [
+export const AuthRoutes = [
   {
     path: '/',
     async lazy() {

@@ -1,10 +1,12 @@
-export const PostRoutes = {
-  path: 'hot',
-  async lazy() {
-    const { PostList } = await import(
-      '../features/posts/PostList/PostList.tsx'
-    );
-    return { Component: PostList };
+export const PostRoutes = [
+  {
+    path: 'hot',
+    async lazy() {
+      const { PostList } = await import(
+        '../features/posts/PostList/PostList.tsx'
+      );
+      return { Component: PostList };
+    },
   },
   ...['for-you', 'following', 'liked', 'saved'].map((path) => ({
     path,
@@ -22,4 +24,11 @@ export const PostRoutes = {
       };
     },
   })),
-};
+  {
+    path: 'posts/:postId',
+    async lazy() {
+      const { PostPage } = await import('../pages/PostPage.tsx');
+      return { Component: PostPage };
+    },
+  },
+];

@@ -4,6 +4,7 @@ import { Loading } from '@/components/Loading/Loading.tsx';
 
 import { AuthRoutes } from './AuthRoutes.tsx';
 import { PostRoutes } from './PostRoutes.tsx';
+import { UserRoutes } from './UserRoutes.tsx';
 
 export const router = createBrowserRouter(
   [
@@ -11,8 +12,8 @@ export const router = createBrowserRouter(
       id: 'root',
       path: '/',
       async lazy() {
-        const { Layout } = await import('../layouts/Layout/Layout.tsx');
-        return { Component: Layout };
+        const { AppLayout } = await import('@layouts/AppLayout/AppLayout.tsx');
+        return { Component: AppLayout };
       },
       hydrateFallbackElement: <Loading />,
       children: [
@@ -23,23 +24,17 @@ export const router = createBrowserRouter(
             return { Component: HomePage };
           },
         },
-        PostRoutes,
-        ...AuthRoutes(),
-        {
-          path: 'posts/:postId',
-          async lazy() {
-            const { PostPage } = await import('../pages/PostPage.tsx');
-            return { Component: PostPage };
-          },
-        },
-        {
-          path: '*',
-          async lazy() {
-            const { NotFoundPage } = await import('../pages/NotFoundPage.tsx');
-            return { Component: NotFoundPage };
-          },
-        },
+        ...PostRoutes,
+        ...UserRoutes,
       ],
+    },
+    ...AuthRoutes,
+    {
+      path: '*',
+      async lazy() {
+        const { NotFoundPage } = await import('../pages/NotFoundPage.tsx');
+        return { Component: NotFoundPage };
+      },
     },
   ],
   {

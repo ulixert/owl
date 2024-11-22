@@ -9,9 +9,9 @@ import { useAuthStore } from '@stores/authStore.ts';
 import { Footer } from '../Footer/Footer.tsx';
 import { Header } from '../Header/Header.tsx';
 import { NavBar } from '../NavBar/NavBar.tsx';
-import classes from './Layout.module.css';
+import classes from './AppLayout.module.css';
 
-export function Layout() {
+export function AppLayout() {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
   const location = useLocation();
   const navigation = useNavigation();
