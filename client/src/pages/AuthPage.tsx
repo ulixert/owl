@@ -9,5 +9,3 @@ export function AuthPage() {
     </Container>
   );
 }
-
-export default AuthPage;
