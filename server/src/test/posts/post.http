@@ -2,8 +2,8 @@
 GET {{api}}/posts/hot
 
 ### Get feed posts
-GET {{api}}/posts/feed?cursor=2&limit=5
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTczMTk4NTA1NiwiZXhwIjoxNzMxOTg1OTU2fQ.00kWUov4JxhBedFJ-fe9nzCBFqV3tKHZFTzKXMzRFII
+GET {{api}}/posts/for-you
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTczMjI1OTcwMSwiZXhwIjoxNzMyMjYwNjAxfQ.o3ZG_9YUnXQkpclgymxKV-iryXqym7ftoijWYf8kmf0
 
 ### Get post by id
 GET {{api}}/posts/3

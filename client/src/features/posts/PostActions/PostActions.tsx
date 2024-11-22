@@ -26,7 +26,7 @@ export function PostActions({
   const currentLikesCount = liked ? likesCount + 1 : likesCount;
 
   return (
-    <Group ml={-6} gap={12}>
+    <Group ml={-6} gap={14}>
       <Center>
         <PostAction color="red" onClick={() => setLiked(!liked)} type="like">
           <IconHeart className={liked ? classes.liked : ''} />

@@ -12,7 +12,9 @@ export const router = createBrowserRouter(
       id: 'root',
       path: '/',
       async lazy() {
-        const { AppLayout } = await import('@layouts/AppLayout/AppLayout.tsx');
+        const { AppLayout } = await import(
+          '../layouts/AppLayout/AppLayout.tsx'
+        );
         return { Component: AppLayout };
       },
       hydrateFallbackElement: <Loading />,
@@ -23,6 +25,7 @@ export const router = createBrowserRouter(
             const { HomePage } = await import('../pages/HomePage.tsx');
             return { Component: HomePage };
           },
+          hydrateFallbackElement: <Loading />,
         },
         ...PostRoutes,
         ...UserRoutes,
@@ -35,6 +38,7 @@ export const router = createBrowserRouter(
         const { NotFoundPage } = await import('../pages/NotFoundPage.tsx');
         return { Component: NotFoundPage };
       },
+      hydrateFallbackElement: <Loading />,
     },
   ],
   {

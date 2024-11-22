@@ -1,3 +1,5 @@
+import { Loading } from '@/components/Loading/Loading.tsx';
+
 export const PostRoutes = [
   {
     path: 'hot',
@@ -7,6 +9,7 @@ export const PostRoutes = [
       );
       return { Component: PostList };
     },
+    hydrateFallbackElement: <Loading />,
   },
   ...['for-you', 'following', 'liked', 'saved'].map((path) => ({
     path,
@@ -23,6 +26,7 @@ export const PostRoutes = [
         ),
       };
     },
+    hydrateFallbackElement: <Loading />,
   })),
   {
     path: 'posts/:postId',

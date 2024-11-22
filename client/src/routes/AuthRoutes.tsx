@@ -1,3 +1,5 @@
+import { Loading } from '@/components/Loading/Loading.tsx';
+
 export const AuthRoutes = [
   {
     path: '/',
@@ -5,6 +7,7 @@ export const AuthRoutes = [
       const { AuthPage } = await import('../pages/AuthPage.tsx');
       return { Component: AuthPage };
     },
+    hydrateFallbackElement: <Loading />,
     children: [
       {
         path: 'login',
