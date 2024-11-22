@@ -14,8 +14,8 @@ export const useLoginMutation = () => {
       const response = await axiosInstance.post('/auth/login', data);
       return response.data as AuthResponse;
     },
-    onSuccess: ({ accessToken, userId }) => {
-      setAccessToken(accessToken, userId);
+    onSuccess: ({ accessToken, userId, profilePic, username }) => {
+      setAccessToken(accessToken, { userId, profilePic, username });
       navigate(-1);
     },
   });

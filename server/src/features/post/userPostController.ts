@@ -155,21 +155,11 @@ export async function getSavedPosts(req: Request, res: Response) {
 
 export async function getRecommendedPosts(req: Request, res: Response) {
   try {
-    const currentUserId = req.user!.id; // Assume `req.user` is populated via middleware
     const { cursor, limit = 10 } = req.query;
-
-    // Retrieve users followed by the current user
-    const followedUsers = await prisma.userFollows.findMany({
-      where: { followerId: currentUserId },
-      select: { followingId: true },
-    });
-
-    const followedUserIds = followedUsers.map((follow) => follow.followingId);
 
     // Fetch recommended posts
     const recommendedPosts = await prisma.post.findMany({
       where: {
-        postedById: { notIn: followedUserIds }, // Exclude followed users
         isDeleted: false, // Exclude deleted posts
       },
       orderBy: [
@@ -178,9 +168,9 @@ export async function getRecommendedPosts(req: Request, res: Response) {
         { repostsCount: 'desc' },
         { createdAt: 'desc' },
       ],
-      take: Number(limit), // Limit the number of posts
-      cursor: cursor ? { id: Number(cursor) } : undefined, // Cursor-based pagination
-      skip: cursor ? 1 : 0, // Skip the current cursor
+      take: Number(limit),
+      cursor: cursor ? { id: Number(cursor) } : undefined,
+      skip: cursor ? 1 : 0,
       include: {
         postedBy: {
           select: {

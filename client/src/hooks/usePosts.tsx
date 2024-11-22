@@ -35,7 +35,10 @@ export function usePosts() {
         const response = await axiosInstance.get<PostsResponse>(
           `posts${endpoint}`,
           {
-            params: { cursor: pageParam == 0 ? undefined : pageParam },
+            params: {
+              cursor: pageParam === 0 ? undefined : pageParam,
+              limit: 10,
+            },
           },
         );
 

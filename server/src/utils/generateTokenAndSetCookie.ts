@@ -7,10 +7,16 @@ const REFRESH_TOKEN_SECRET = process.env.REFRESH_TOKEN_SECRET!;
 export function generateRefreshTokenAndSetCookie(
   res: Response,
   userId: number,
+  username: string,
+  profilePic: string | null,
 ) {
-  const token = jwt.sign({ userId }, REFRESH_TOKEN_SECRET, {
-    expiresIn: '7d',
-  });
+  const token = jwt.sign(
+    { userId, username, profilePic },
+    REFRESH_TOKEN_SECRET,
+    {
+      expiresIn: '7d',
+    },
+  );
 
   res.cookie('refreshToken', token, {
     httpOnly: true,

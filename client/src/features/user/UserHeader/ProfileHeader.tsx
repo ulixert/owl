@@ -13,7 +13,7 @@ import { IconBrandInstagram } from '@tabler/icons-react';
 import { UserMoreMenu } from '../UserMoreMenu/UserMoreMenu.tsx';
 import classes from './UserHeader.module.css';
 
-export function UserHeader() {
+export function ProfileHeader() {
   return (
     <Stack gap={16} align="start">
       <Flex justify="space-between" w="100%">

@@ -1,10 +1,13 @@
-export const AuthRoutes = () => [
+import { Loading } from '@/components/Loading/Loading.tsx';
+
+export const AuthRoutes = [
   {
     path: '/',
     async lazy() {
       const { AuthPage } = await import('../pages/AuthPage.tsx');
       return { Component: AuthPage };
     },
+    hydrateFallbackElement: <Loading />,
     children: [
       {
         path: 'login',
