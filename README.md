@@ -60,7 +60,7 @@ Owl is a full-stack web application that includes user authentication, token man
 1. **Clone the repository:**
 
    ```sh
-   git clone https://github.com/your-username/owl.git
+   git clone https://github.com/ulixert/owl-the-social-media.git
    cd owl
    ```
 
