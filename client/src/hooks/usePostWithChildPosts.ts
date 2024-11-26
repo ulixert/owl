@@ -20,7 +20,7 @@ export function usePostWithChildPosts() {
     isLoading: isParentLoading,
     isError: isParentError,
   } = useQuery<PostResponse>({
-    queryKey: ['parentPost', location.pathname],
+    queryKey: ['parentPost', location.pathname, postId],
     queryFn: async () => {
       const response = await axiosInstance.get<PostResponse>(`posts/${postId}`);
       return response.data;

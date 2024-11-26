@@ -34,7 +34,7 @@ export function NavLink({
     if (needLogin && !isAuthenticated) {
       openLoginModal();
     } else {
-      navigate(path);
+      void navigate(path);
       if (path !== '/') {
         setTitle(path[1].toUpperCase() + path.slice(2));
       }

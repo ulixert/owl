@@ -47,3 +47,9 @@ Content-type: application/json
 {
     "text": "Comment text"
 }
+
+### Get user's posts by username
+GET {{api}}/posts/user/thomas/posts
+
+### Get user's replies by username
+GET {{api}}/posts/user/thomas/replies

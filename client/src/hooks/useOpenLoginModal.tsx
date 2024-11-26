@@ -33,7 +33,7 @@ export function useOpenLoginModal() {
         </Text>
       ),
       labels: { confirm: 'Log in', cancel: 'Sign up' },
-      onConfirm: () => navigate('/login'),
-      onCancel: () => navigate('/signup'),
+      onConfirm: () => void navigate('/login'),
+      onCancel: () => void navigate('/signup'),
     });
 }
