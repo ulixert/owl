@@ -17,9 +17,9 @@ export function ReturnButton() {
 
   function handleBack() {
     if (location.key === 'initial') {
-      navigate('/');
+      void navigate('/');
     } else {
-      navigate(-1);
+      void navigate(-1);
     }
   }
 
